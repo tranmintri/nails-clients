@@ -15,10 +15,10 @@ export default function Footer() {
       </div>
       <div className="text-center mt-14">
         <span className="text-3xl font-medium ">Liên lạc</span>
-        <p className="text-gray-500 mb-2 mt-3 text-xl">(+84)123456789</p>
-        <p className="text-gray-500 mb-2 text-xl">example@gmail.com</p>
+        <p className="text-gray-500 mb-2 mt-3 text-xl">(+84)385693343</p>
+        <p className="text-gray-500 mb-2 text-xl">Facebook : Phương Lê</p>
         <div className="flex justify-center items-center">
-          <Link to="/">
+          <Link to="https://www.facebook.com/bi.ngok.1272">
             <img src={facebook} alt="" width={30} className="mr-4" />
           </Link>
           <Link to="/">

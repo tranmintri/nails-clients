@@ -15,9 +15,9 @@ import nail09 from "../assets/nail09.jpg";
 import nail10 from "../assets/nail10.jpg";
 import nail12 from "../assets/nail12.jpg";
 
-import Navigation from "./Navigation";
+import Navigation from "../components/Navigation";
 import PriceComponent from "../util/PriceComponent";
-import Footer from "./Footer";
+import Footer from "../components/Footer";
 
 export default function Home() {
   return (

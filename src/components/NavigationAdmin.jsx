@@ -3,6 +3,7 @@ import logoBlackNails from "../assets/logo.jpg";
 import { Link } from "react-router-dom";
 import { CiMenuFries } from "react-icons/ci";
 import { IoIosCloseCircleOutline } from "react-icons/io";
+import { CiSearch } from "react-icons/ci";
 
 export default function NavigationAdmin() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -13,40 +14,38 @@ export default function NavigationAdmin() {
 
   return (
     <div className="w-full fixed top-0 left-0 bg-white z-50 shadow-lg rounded-b-lg">
-      <div className="w-full mx-auto py-4 flex justify-between items-center">
-        <img src={logoBlackNails} alt="Logo" width={100} className="md:w-28" />
-        <div className="absolute right-14 ">
+      <div className="w-full mx-auto  flex justify-between items-center">
+        <div className="w-2/12  border-r border-gray-300">
+          <div className="my-3">
+            <img
+              src={logoBlackNails}
+              alt="Logo"
+              width={100}
+              className="md:w-28"
+            />
+          </div>
+        </div>
+        <div className="absolute right-3 ">
           <CiMenuFries
             className="block md:hidden text-xl"
             onClick={navHandle}
           />
         </div>
+        <div className="w-8/12 flex justify-start items-center pl-4 ">
+          <CiSearch className="text-2xl cursor-pointer mr-4" />
+          <input
+            type="text"
+            className="w-10/12 bg-slate-200 h-10 pl-4 rounded-lg"
+            placeholder="Tìm kiếm"
+          />
+        </div>
 
-        <nav className="hidden md:block">
-          <ul className="flex">
-            <li>
-              <Link className="hover:text-gray-400 text-xl mr-11" to="/">
-                Trang chủ
-              </Link>
-            </li>
-            <li>
-              <Link className="hover:text-gray-400 text-xl mr-11" to="/">
-                Dịch vụ
-              </Link>
-            </li>
-            <li>
-              <Link className="hover:text-gray-400 text-xl" to="/">
-                Về chúng tôi
-              </Link>
-            </li>
-          </ul>
-        </nav>
-        <div>
+        <div className="w-2/12 flex justify-end">
           <Link
-            className="hover:text-gray-400 text-xl hidden md:block"
+            className="hover:text-gray-400 text-xl hidden md:block mr-10"
             to="/login"
           >
-            Đăng nhập
+            Đăng xuất
           </Link>
         </div>
       </div>

@@ -29,14 +29,14 @@ export default function Home() {
         <div className="w-full flex justify-center px-1">
           <div className="w-10/12 ">
             <div className="text-center w-full pt-11">
-              <div className="w-full flex justify-center items-center mb-11">
+              {/* <div className="w-full flex justify-center items-center mb-11">
                 <img
                   src={logoBlackNails}
                   alt="Logo"
                   width={120}
                   className="md:w-36"
                 />
-              </div>
+              </div> */}
               <span className="text-2xl md:text-6xl md:mb-5 md:px-28 block mb-2">
                 Chúng tôi muốn làm cho mọi cô gái
               </span>

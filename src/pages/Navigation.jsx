@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import logoBlackNails from "../assets/logo-black-nails.png";
+import logoBlackNails from "../assets/logo.jpg";
 import { Link } from "react-router-dom";
 import { CiMenuFries } from "react-icons/ci";
 import { IoIosCloseCircleOutline } from "react-icons/io";

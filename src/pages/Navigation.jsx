@@ -42,7 +42,10 @@ export default function Navigation() {
           </ul>
         </nav>
         <div>
-          <Link className="hover:text-gray-400 text-xl hidden md:block" to="/">
+          <Link
+            className="hover:text-gray-400 text-xl hidden md:block"
+            to="/login"
+          >
             Đăng nhập
           </Link>
         </div>
@@ -88,7 +91,7 @@ export default function Navigation() {
             <li>
               <Link
                 className="block py-4 px-6 text-lg hover:bg-gray-100"
-                to="/"
+                to="/login"
                 // onClick={toggleMenu}
               >
                 Đăng nhập

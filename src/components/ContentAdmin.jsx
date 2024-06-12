@@ -3,7 +3,7 @@ import Dashboard from "./pages/Dashboard";
 import Product from "./pages/Product";
 import Service from "./pages/Service";
 import Bill from "./pages/Bill";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Sale from "./pages/Sale";
 import { useStateProvider } from "../context/StateContext";
 import { reducerCases } from "../context/constants";
@@ -11,6 +11,7 @@ import { reducerCases } from "../context/constants";
 export default function ContentAdmin() {
   const [choose, setChoose] = useState(1);
   const [{ currentPage }, dispatch] = useStateProvider();
+  const navigate = useNavigate();
 
   const setChooseMenu = (num) => {
     dispatch({
@@ -18,7 +19,15 @@ export default function ContentAdmin() {
       currentPage: num,
     });
   };
-
+  const handleClearLocalStorage = () => {
+    alert("a");
+    const userInfoString = localStorage.getItem("userInfo");
+    // Kiểm tra xem giá trị có tồn tại không
+    if (userInfoString) {
+      localStorage.clear();
+    }
+    navigate("/login", { replace: true });
+  };
   return (
     <div className="w-full flex">
       <div className="hidden md:w-2/12 h-[90vh] md:border-r md:border-gray-300 md:block">
@@ -65,10 +74,9 @@ export default function ContentAdmin() {
           </li>
           <li
             className={`text-xl h-14 content-center cursor-pointer  border-b border-gray-300 hover:bg-slate-200`}
+            onClick={() => handleClearLocalStorage()}
           >
-            <Link className=" w-full  text-xl hidden md:block mr-10" to="/">
-              Đăng xuất
-            </Link>
+            Đăng xuất
           </li>
         </ul>
       </div>

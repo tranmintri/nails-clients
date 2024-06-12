@@ -1,5 +1,6 @@
 import React from "react";
 import logoBlackNails from "../assets/logo-black-nails.png";
+import banner from "../assets/banner.png";
 import banner1 from "../assets/banner1.jpg";
 import banner2 from "../assets/banner2.jpg";
 import banner3 from "../assets/banner3.jpg";
@@ -21,26 +22,21 @@ import Footer from "../components/Footer";
 
 export default function Home() {
   return (
-    <div className="h-screen w-full ">
+    <div className="h-screen w-full">
       <div className="h-[13vh]">
         <Navigation />
       </div>
-      <div className=" z-0 h-[87vh] w-full ">
+      <div className=" z-0 h-[87vh] w-full md:pt-10 pt-5">
+        <div className="w-full flex justify-center items-center ">
+          <img src={banner} alt="Logo" width={300} className="md:w-[600px]" />
+        </div>
         <div className="w-full flex justify-center px-1">
           <div className="w-10/12 ">
-            <div className="text-center w-full pt-11">
-              {/* <div className="w-full flex justify-center items-center mb-11">
-                <img
-                  src={logoBlackNails}
-                  alt="Logo"
-                  width={120}
-                  className="md:w-36"
-                />
-              </div> */}
-              <span className="text-2xl md:text-6xl md:mb-5 md:px-28 block mb-2">
+            <div className="text-center w-full pt-5 md:pt-11">
+              <span className="text-2xl md:text-5xl md:mb-5 md:px-28 block mb-2">
                 Chúng tôi muốn làm cho mọi cô gái
               </span>
-              <span className="text-2xl  md:text-6xl md:mb-5 md:px-28 block">
+              <span className="text-2xl  md:text-5xl md:mb-5 md:px-28 block">
                 xinh đẹp, hạnh phúc và được yêu thương!
               </span>
             </div>

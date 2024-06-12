@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import logoBlackNails from "../assets/logo.jpg";
+import logoBlackNails from "../assets/logo1.png";
 import { Link } from "react-router-dom";
 import { CiMenuFries } from "react-icons/ci";
 import { IoIosCloseCircleOutline } from "react-icons/io";
@@ -14,7 +14,7 @@ export default function Navigation() {
   return (
     <div className="w-full fixed top-0 left-0 bg-white z-50 shadow-lg rounded-b-lg">
       <div className="w-10/12 mx-auto py-4 flex justify-between items-center">
-        <img src={logoBlackNails} alt="Logo" width={120} className="md:w-36" />
+        <img src={logoBlackNails} alt="Logo" width={60} className="md:w-20" />
         <div className="absolute right-14 ">
           <CiMenuFries
             className="block md:hidden text-xl"

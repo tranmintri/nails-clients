@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import logoBlackNails from "../assets/logo.jpg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CiMenuFries } from "react-icons/ci";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import { CiSearch } from "react-icons/ci";
@@ -10,6 +10,7 @@ import { reducerCases } from "../context/constants";
 export default function NavigationAdmin() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [{ currentPage }, dispatch] = useStateProvider();
+  const navigate = useNavigate();
 
   const setChooseMenu = (num) => {
     dispatch({
@@ -20,6 +21,14 @@ export default function NavigationAdmin() {
 
   const navHandle = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+  const handleClearLocalStorage = () => {
+    const userInfoString = localStorage.getItem("userInfo");
+    // Kiểm tra xem giá trị có tồn tại không
+    if (userInfoString) {
+      localStorage.clear();
+    }
+    navigate("/login", { replace: true });
   };
 
   return (
@@ -103,7 +112,10 @@ export default function NavigationAdmin() {
             >
               Hóa đơn
             </li>
-            <li className="block py-4 px-6 text-lg hover:bg-gray-100">
+            <li
+              className="block py-4 px-6 text-lg hover:bg-gray-100"
+              onClick={() => handleClearLocalStorage()}
+            >
               Đăng xuất
             </li>
           </ul>

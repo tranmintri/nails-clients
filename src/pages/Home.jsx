@@ -1,19 +1,19 @@
 import React from "react";
 import logoBlackNails from "../assets/logo-black-nails.png";
-import hero51 from "../assets/hero-5-1.jpg";
-import hero52 from "../assets/hero-5-2.jpg";
-import hero53 from "../assets/hero-5-3.jpg";
+import banner1 from "../assets/banner1.jpg";
+import banner2 from "../assets/banner2.jpg";
+import banner3 from "../assets/banner3.jpg";
 
 import nail from "../assets/nail.png";
 import nailPolish from "../assets/nail-polish.png";
 import head from "../assets/head.png";
 import facialMassage from "../assets/facial-massage.png";
 
-import nail07 from "../assets/nail07.jpg";
-import nail08 from "../assets/nail08.jpg";
-import nail09 from "../assets/nail09.jpg";
-import nail10 from "../assets/nail10.jpg";
-import nail12 from "../assets/nail12.jpg";
+import banner4 from "../assets/banner4.jpg";
+import banner5 from "../assets/banner5.jpg";
+import banner6 from "../assets/banner6.jpg";
+import banner7 from "../assets/banner7.jpg";
+import banner8 from "../assets/banner8.jpg";
 
 import Navigation from "../components/Navigation";
 import PriceComponent from "../util/PriceComponent";
@@ -53,9 +53,24 @@ export default function Home() {
         </div>
 
         <div className="w-full flex flex-wrap justify-center items-center ">
-          <img src={hero51} alt="Logo" width={400} className="md:mr-10 mt-10" />
-          <img src={hero52} alt="Logo" width={550} className="md:mr-10 mt-10" />
-          <img src={hero53} alt="Logo" width={450} className="mt-10" />
+          <img
+            src={banner1}
+            alt="Logo"
+            width={400}
+            className="md:mr-10 mt-10 rounded-lg"
+          />
+          <img
+            src={banner2}
+            alt="Logo"
+            width={550}
+            className="md:mr-10 mt-10 rounded-lg"
+          />
+          <img
+            src={banner3}
+            alt="Logo"
+            width={450}
+            className="mt-10 rounded-lg"
+          />
         </div>
         <div className="w-full flex flex-wrap justify-center items-center ">
           <div className="md:mr-10 mt-10 text-center w-full md:w-2/12">
@@ -282,17 +297,33 @@ export default function Home() {
             </div>
           </div>
           <div className="mt-10 md:flex md:justify-center items-center w-full">
-            <img src={nail10} alt="Logo" className="md:mr-10 mt-10 md:w-52" />
             <img
-              src={nail07}
+              src={banner6}
               alt="Logo"
-              className="md:mr-10 mt-10 md:w-[400px]"
+              className="md:mr-10 mt-10 md:w-52 rounded-lg"
+            />
+            <img
+              src={banner4}
+              alt="Logo"
+              className="md:mr-10 mt-10 md:w-[400px] rounded-lg"
             />
             <div className="mr-10 pl-7">
-              <img src={nail09} alt="Logo" className="mt-10 md:w-64" />
-              <img src={nail08} alt="Logo" className="mt-10 md:w-64" />
+              <img
+                src={banner7}
+                alt="Logo"
+                className="mt-10 md:w-64 rounded-lg"
+              />
+              <img
+                src={banner5}
+                alt="Logo"
+                className="mt-10 md:w-64 rounded-lg"
+              />
             </div>
-            <img src={nail12} alt="Logo" className="mt-10 md:w-52" />
+            <img
+              src={banner8}
+              alt="Logo"
+              className="mt-10 md:w-52 rounded-lg"
+            />
           </div>
         </div>
         <Footer />

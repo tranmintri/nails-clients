@@ -30,6 +30,11 @@ export default function Navigation() {
               </Link>
             </li>
             <li>
+              <Link className="hover:text-gray-400 text-xl mr-11" to="/product">
+                Sản Phẩm
+              </Link>
+            </li>
+            <li>
               <Link className="hover:text-gray-400 text-xl mr-11" to="/">
                 Dịch vụ
               </Link>
@@ -68,6 +73,15 @@ export default function Navigation() {
                 to="/"
               >
                 Trang Chủ
+              </Link>
+            </li>
+            <li>
+              <Link
+                className="block py-4 px-6 text-lg hover:bg-gray-100"
+                to="/product"
+                // onClick={toggleMenu}
+              >
+                Sản Phẩm
               </Link>
             </li>
             <li>

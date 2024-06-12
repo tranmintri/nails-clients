@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 export default function Footer() {
   return (
-    <div className="w-full bg-gray-100 min-h-24 md:flex md:justify-between items-center md:px-56 md:pb-10">
+    <div className="w-full pt-5 bg-gray-100 min-h-24 md:flex md:justify-between items-center md:px-56 md:pb-10">
       <div className="text-center mt-14">
         <span className="text-3xl font-medium ">Địa chỉ</span>
         <p className="text-gray-500 mb-2 mt-3 text-xl">Phương Nail - Spa</p>

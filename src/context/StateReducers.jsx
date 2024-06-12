@@ -1,7 +1,7 @@
 import { reducerCases } from "./constants";
 export const initialState = {
   userInfo: undefined,
-  currentPage: undefined,
+  currentPage: 1,
 };
 
 const reducer = (state, action) => {

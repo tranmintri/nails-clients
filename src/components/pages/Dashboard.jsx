@@ -13,25 +13,30 @@ export default function Dashboard() {
     { invoiceId: 3, name: "Sam Johnson", date: "2024-06-10", amount: 300000 },
   ];
 
+  const productData = [
+    { productId: 1, name: "Kem body", amount: 200000 },
+    { productId: 2, name: "Serum", amount: 300000 },
+  ];
+
   const invoiceDetailData = [
     {
       invoiceId: 1,
-      productName: "Kem body",
-      quantity: 3,
+      products: [
+        { productId: 1, name: "Kem body", quantity: 2 },
+        { productId: 2, name: "Serum", quantity: 3 },
+      ],
       services: ["Gội đầu", "Cắt móng", "Tỉa da"],
       total: 100000,
     },
     {
       invoiceId: 2,
-      productName: "Serum",
-      quantity: 3,
+      products: [{ productId: 2, name: "Serum", quantity: 3 }],
       services: ["Cắt móng", "Tỉa da"],
       total: 100000,
     },
     {
       invoiceId: 3,
-      productName: "Kem body",
-      quantity: 3,
+      products: [{ productId: 1, name: "Kem body", quantity: 3 }],
       services: ["Gội đầu", "Tỉa da"],
       total: 100000,
     },
@@ -72,7 +77,7 @@ export default function Dashboard() {
       <div className="pt-11">
         <span className="text-xl">Danh sách hóa đơn</span>
         <div className="rounded-lg shadow-lg overflow-x-auto">
-          <table className="min-w-full bg-white mt-3 rounded-lg ">
+          <table className="min-w-full bg-white mt-3 rounded-lg">
             <thead className="bg-gray-800 text-white">
               <tr>
                 <th className="w-1/4 px-4 py-2">#</th>
@@ -106,29 +111,41 @@ export default function Dashboard() {
           <div className="rounded-lg shadow-lg overflow-x-auto">
             <table className="min-w-full bg-white mt-3 rounded-lg">
               <thead className="bg-gray-800 text-white">
-                <tr>
-                  <th className="w-1/4 px-4 py-2">Sản Phẩm</th>
-                  <th className="w-1/4 px-4 py-2">Số lượng</th>
-                  <th className="w-1/4 px-4 py-2">Dịch vụ</th>
-                  <th className="w-1/4 px-4 py-2">Tổng tiền</th>
-                </tr>
+                <th className="w-1/4 px-4 py-2">Sản Phẩm</th>
+                <th className="w-1/6 px-4 py-2">Số lượng</th>
+                <th className="w-1/3 px-4 py-2">Dịch vụ</th>
+                <th className="w-1/6 px-4 py-2">Tổng tiền</th>
               </thead>
               <tbody className="text-gray-700">
                 {selectedInvoiceDetails.map((invoiceDetail) => (
-                  <tr key={invoiceDetail.invoiceId}>
-                    <td className="border px-4 py-2">
-                      {invoiceDetail.productName}
-                    </td>
-                    <td className="border px-4 py-2">
-                      {invoiceDetail.quantity}
-                    </td>
-                    <td className="border px-4 py-2">
-                      {invoiceDetail.services.join(", ")}
-                    </td>
-                    <td className="border px-4 py-2">
-                      <PriceComponent price={invoiceDetail.total} />
-                    </td>
-                  </tr>
+                  <>
+                    {invoiceDetail.products.map((product, index) => (
+                      <tr key={product.productId}>
+                        <td className="border px-4 py-2">{product.name}</td>
+                        <td className="border px-4 py-2">{product.quantity}</td>
+                        {index === 0 && (
+                          <td
+                            className="border px-4 py-2"
+                            rowSpan={invoiceDetail.products.length}
+                          >
+                            <ul className="list-disc ">
+                              {invoiceDetail.services.map((service, idx) => (
+                                <li key={idx}>{service}</li>
+                              ))}
+                            </ul>
+                          </td>
+                        )}
+                        {index === 0 && (
+                          <td
+                            className="border px-4 py-2"
+                            rowSpan={invoiceDetail.products.length}
+                          >
+                            <PriceComponent price={invoiceDetail.total} />
+                          </td>
+                        )}
+                      </tr>
+                    ))}
+                  </>
                 ))}
               </tbody>
             </table>

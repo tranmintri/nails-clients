@@ -3,12 +3,20 @@ import Dashboard from "./pages/Dashboard";
 import Product from "./pages/Product";
 import Service from "./pages/Service";
 import Bill from "./pages/Bill";
+import { Link } from "react-router-dom";
+import Sale from "./pages/Sale";
+import { useStateProvider } from "../context/StateContext";
+import { reducerCases } from "../context/constants";
 
 export default function ContentAdmin() {
   const [choose, setChoose] = useState(1);
+  const [{ currentPage }, dispatch] = useStateProvider();
 
   const setChooseMenu = (num) => {
-    setChoose(num);
+    dispatch({
+      type: reducerCases.SET_CURRENT_ADMIN_PAGE,
+      currentPage: num,
+    });
   };
 
   return (
@@ -17,7 +25,7 @@ export default function ContentAdmin() {
         <ul className="text-center">
           <li
             className={`text-xl h-14 ${
-              choose == 1 ? "bg-slate-200" : "bg-white"
+              currentPage == 1 ? "bg-slate-200" : "bg-white"
             } content-center mt-10 cursor-pointer border-b border-gray-300 hover:bg-slate-200`}
             onClick={() => setChooseMenu(1)}
           >
@@ -25,39 +33,56 @@ export default function ContentAdmin() {
           </li>
           <li
             className={`text-xl h-14 ${
-              choose == 2 ? "bg-gray-200" : "bg-white"
+              currentPage == 2 ? "bg-gray-200" : "bg-white"
             } content-center cursor-pointer  border-b border-gray-300 hover:bg-slate-200`}
             onClick={() => setChooseMenu(2)}
+          >
+            Bán hàng
+          </li>
+          <li
+            className={`text-xl h-14 ${
+              currentPage == 3 ? "bg-gray-200" : "bg-white"
+            } content-center cursor-pointer  border-b border-gray-300 hover:bg-slate-200`}
+            onClick={() => setChooseMenu(3)}
           >
             Sản phẩm
           </li>
           <li
             className={`text-xl h-14 ${
-              choose == 3 ? "bg-gray-200" : "bg-white"
+              currentPage == 4 ? "bg-gray-200" : "bg-white"
             } content-center cursor-pointer  border-b border-gray-300 hover:bg-slate-200`}
-            onClick={() => setChooseMenu(3)}
+            onClick={() => setChooseMenu(4)}
           >
             Dịch vụ
           </li>
           <li
             className={`text-xl h-14 ${
-              choose == 4 ? "bg-gray-200" : "bg-white"
+              currentPage == 5 ? "bg-gray-200" : "bg-white"
             } content-center cursor-pointer  border-b border-gray-300 hover:bg-slate-200`}
-            onClick={() => setChooseMenu(4)}
+            onClick={() => setChooseMenu(5)}
           >
             Hóa đơn
+          </li>
+          <li
+            className={`text-xl h-14 content-center cursor-pointer  border-b border-gray-300 hover:bg-slate-200`}
+          >
+            <Link className=" w-full  text-xl hidden md:block mr-10" to="/">
+              Đăng xuất
+            </Link>
           </li>
         </ul>
       </div>
       <div className="md:w-10/12 w-full ">
-        {choose == 1 ? (
+        {currentPage == 1 ? (
           <Dashboard />
-        ) : choose == 2 ? (
+        ) : currentPage == 3 ? (
           <Product />
-        ) : choose == 3 ? (
+        ) : currentPage == 4 ? (
           <Service />
-        ) : (
+        ) : currentPage == 5 ? (
           <Bill />
+        ) : (
+          <Sale />
         )}
       </div>
     </div>

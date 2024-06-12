@@ -17,6 +17,7 @@ function App() {
         <StateProvider initialState={initialState} reducer={reducer}>
           <Helmet>
             <title>Nails & Spa</title>
+            <link rel="shortcut icon" href="/logo.jpg" />
           </Helmet>
           <AppRouter />
         </StateProvider>

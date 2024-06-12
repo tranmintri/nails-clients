@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useStateProvider } from "../context/StateContext";
@@ -9,6 +9,15 @@ function Login() {
   const [password, setPassword] = useState("");
   const [{ userInfo }, dispatch] = useStateProvider();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Lấy thông tin người dùng từ sessionStorage
+    const userInfoString = localStorage.getItem("userInfo");
+    // Kiểm tra xem giá trị có tồn tại không
+    if (userInfoString) {
+      navigate("/");
+    }
+  }, []);
 
   const handleLogin = (e) => {
     e.preventDefault();

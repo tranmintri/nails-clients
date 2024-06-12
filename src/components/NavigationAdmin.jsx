@@ -4,9 +4,19 @@ import { Link } from "react-router-dom";
 import { CiMenuFries } from "react-icons/ci";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import { CiSearch } from "react-icons/ci";
+import { useStateProvider } from "../context/StateContext";
+import { reducerCases } from "../context/constants";
 
 export default function NavigationAdmin() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [{ currentPage }, dispatch] = useStateProvider();
+
+  const setChooseMenu = (num) => {
+    dispatch({
+      type: reducerCases.SET_CURRENT_ADMIN_PAGE,
+      currentPage: num,
+    });
+  };
 
   const navHandle = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -39,15 +49,7 @@ export default function NavigationAdmin() {
             placeholder="Tìm kiếm"
           />
         </div>
-
-        <div className="w-2/12 flex justify-end">
-          <Link
-            className="hover:text-gray-400 text-xl hidden md:block mr-10"
-            to="/login"
-          >
-            Đăng xuất
-          </Link>
-        </div>
+        <div className="w-2/12 flex justify-start items-center pl-4 "></div>
       </div>
       {isMenuOpen && (
         <div
@@ -61,40 +63,48 @@ export default function NavigationAdmin() {
             <IoIosCloseCircleOutline className=" text-3xl text-white" />
           </div>
           <ul className="bg-white h-[95vh] rounded-s-lg">
-            <li>
-              <Link
-                className="block py-4 px-6 text-lg hover:bg-gray-100 rounded-ss-lg"
-                to="/"
-              >
-                Trang Chủ
-              </Link>
+            <li
+              className={`${
+                currentPage == 1 ? "bg-slate-200" : "bg-white"
+              } block py-4 px-6 text-lg hover:bg-gray-100`}
+              onClick={() => setChooseMenu(1)}
+            >
+              Trang chủ
             </li>
-            <li>
-              <Link
-                className="block py-4 px-6 text-lg hover:bg-gray-100"
-                to="/"
-                // onClick={toggleMenu}
-              >
-                Dịch vụ
-              </Link>
+            <li
+              className={`${
+                currentPage == 2 ? "bg-slate-200" : "bg-white"
+              } block py-4 px-6 text-lg hover:bg-gray-100`}
+              onClick={() => setChooseMenu(2)}
+            >
+              Bán hàng
             </li>
-            <li>
-              <Link
-                className="block py-4 px-6 text-lg hover:bg-gray-100"
-                to="/"
-                // onClick={toggleMenu}
-              >
-                Về chúng tôi
-              </Link>
+            <li
+              className={`${
+                currentPage == 3 ? "bg-slate-200" : "bg-white"
+              } block py-4 px-6 text-lg hover:bg-gray-100`}
+              onClick={() => setChooseMenu(3)}
+            >
+              Sản phẩm
             </li>
-            <li>
-              <Link
-                className="block py-4 px-6 text-lg hover:bg-gray-100"
-                to="/login"
-                // onClick={toggleMenu}
-              >
-                Đăng nhập
-              </Link>
+            <li
+              className={`${
+                currentPage == 4 ? "bg-slate-200" : "bg-white"
+              } block py-4 px-6 text-lg hover:bg-gray-100`}
+              onClick={() => setChooseMenu(4)}
+            >
+              Dịch vụ
+            </li>
+            <li
+              className={`${
+                currentPage == 5 ? "bg-slate-200" : "bg-white"
+              } block py-4 px-6 text-lg hover:bg-gray-100`}
+              onClick={() => setChooseMenu(5)}
+            >
+              Hóa đơn
+            </li>
+            <li className="block py-4 px-6 text-lg hover:bg-gray-100">
+              Đăng xuất
             </li>
           </ul>
         </div>

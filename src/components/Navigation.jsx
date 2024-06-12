@@ -39,11 +39,6 @@ export default function Navigation() {
                 Dịch vụ
               </Link>
             </li>
-            <li>
-              <Link className="hover:text-gray-400 text-xl" to="/">
-                Về chúng tôi
-              </Link>
-            </li>
           </ul>
         </nav>
         <div>
@@ -67,7 +62,7 @@ export default function Navigation() {
             <IoIosCloseCircleOutline className=" text-3xl text-white" />
           </div>
           <ul className="bg-white h-[95vh] rounded-s-lg">
-            <li>
+            <li onClick={navHandle}>
               <Link
                 className="block py-4 px-6 text-lg hover:bg-gray-100 rounded-ss-lg"
                 to="/"
@@ -75,7 +70,7 @@ export default function Navigation() {
                 Trang Chủ
               </Link>
             </li>
-            <li>
+            <li onClick={navHandle}>
               <Link
                 className="block py-4 px-6 text-lg hover:bg-gray-100"
                 to="/product"
@@ -84,7 +79,7 @@ export default function Navigation() {
                 Sản Phẩm
               </Link>
             </li>
-            <li>
+            <li onClick={navHandle}>
               <Link
                 className="block py-4 px-6 text-lg hover:bg-gray-100"
                 to="/"
@@ -93,16 +88,8 @@ export default function Navigation() {
                 Dịch vụ
               </Link>
             </li>
-            <li>
-              <Link
-                className="block py-4 px-6 text-lg hover:bg-gray-100"
-                to="/"
-                // onClick={toggleMenu}
-              >
-                Về chúng tôi
-              </Link>
-            </li>
-            <li>
+
+            <li onClick={navHandle}>
               <Link
                 className="block py-4 px-6 text-lg hover:bg-gray-100"
                 to="/login"

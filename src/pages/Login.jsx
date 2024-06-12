@@ -46,13 +46,14 @@ function Login() {
       >
         <div className="mb-6 w-full text-center">
           <label htmlFor="email" className="block mb-2 text-xl font-medium">
-            Tài khoản
+            Tên đăng nhập
           </label>
           <input
             type="text"
             id="username"
             className="h-10 pl-4 w-full md:w-4/12 rounded-lg"
             required
+            placeholder="Tên đăng nhập"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />

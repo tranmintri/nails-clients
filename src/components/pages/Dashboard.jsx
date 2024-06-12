@@ -77,7 +77,7 @@ export default function Dashboard() {
       <div className="pt-11">
         <span className="text-xl">Danh sách hóa đơn</span>
         <div className="rounded-lg shadow-lg overflow-x-auto">
-          <table className="min-w-full bg-white mt-3 rounded-lg">
+          <table className="min-w-full bg-white mt-3 rounded-lg text-left">
             <thead className="bg-gray-800 text-white">
               <tr>
                 <th className="w-1/4 px-4 py-2">#</th>
@@ -109,7 +109,7 @@ export default function Dashboard() {
         <div className="pt-11">
           <span className="text-xl">Chi tiết hóa đơn</span>
           <div className="rounded-lg shadow-lg overflow-x-auto">
-            <table className="min-w-full bg-white mt-3 rounded-lg">
+            <table className="min-w-full bg-white mt-3 rounded-lg text-left">
               <thead className="bg-gray-800 text-white">
                 <th className="w-1/4 px-4 py-2">Sản Phẩm</th>
                 <th className="w-1/6 px-4 py-2">Số lượng</th>

@@ -1,18 +1,14 @@
 import React, { useState } from "react";
 import PriceComponent from "../../util/PriceComponent";
+import hero51 from "../../assets/hero-5-1.jpg";
 
-export default function CheckoutForm() {
+export default function Sale() {
   const [customerName, setCustomerName] = useState("");
-  const [quantity, setQuantity] = useState(1);
-  const [price, setPrice] = useState(0);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [selectedQuantity, setSelectedQuantity] = useState(1);
   const [total, setTotal] = useState(0);
-  const [selectedProduct, setSelectedProduct] = useState("");
+  const [selectedProductsList, setSelectedProductsList] = useState([]);
   const [selectedServices, setSelectedServices] = useState([]);
-
-  const productData = [
-    { productId: 1, name: "Kem body", amount: 200000 },
-    { productId: 2, name: "Serum", amount: 300000 },
-  ];
 
   const serviceData = [
     { serviceId: 1, name: "Gội đầu", amount: 50000 },
@@ -20,30 +16,70 @@ export default function CheckoutForm() {
     { serviceId: 3, name: "Tỉa da", amount: 20000 },
   ];
 
-  const handleProductChange = (e) => {
-    const selected = productData.find((p) => p.name === e.target.value);
-    setSelectedProduct(e.target.value);
-    if (selected) setPrice(selected.amount);
-  };
-
   const handleServiceChange = (e) => {
     const value = e.target.value;
-    setSelectedServices((prev) =>
-      prev.includes(value)
-        ? prev.filter((service) => service !== value)
-        : [...prev, value]
-    );
-  };
-
-  const handleQuantityChange = (e) => {
-    const value = e.target.value;
-    if (value >= 0) {
-      setQuantity(value);
+    if (e.target.checked) {
+      setSelectedServices((prev) => [...prev, value]);
+    } else {
+      setSelectedServices((prev) =>
+        prev.filter((service) => service !== value)
+      );
     }
   };
 
+  const productData = [
+    {
+      productId: 1,
+      name: "Kem body",
+      amount: 200000,
+      image: "../../assets/hero-5-1.jpg",
+    },
+    { productId: 2, name: "Serum", amount: 300000, image: hero51 },
+  ];
+
+  const handleProductChange = (e) => {
+    const selected = productData.find((p) => p.name === e.target.value);
+    setSelectedProduct(selected);
+  };
+
+  const handleQuantityChange = (e) => {
+    const value = parseInt(e.target.value);
+    setSelectedQuantity(value >= 0 ? value : 0);
+  };
+
+  const handleAddProduct = () => {
+    if (selectedProduct) {
+      const index = selectedProductsList.findIndex(
+        (item) => item.productId === selectedProduct.productId
+      );
+      if (index !== -1) {
+        const updatedList = [...selectedProductsList];
+        updatedList[index].quantity += selectedQuantity;
+        setSelectedProductsList(updatedList);
+      } else {
+        const newItem = {
+          productId: selectedProduct.productId,
+          name: selectedProduct.name,
+          quantity: selectedQuantity,
+          price: selectedProduct.amount,
+          image: selectedProduct.image,
+        };
+        setSelectedProductsList([...selectedProductsList, newItem]);
+      }
+      setSelectedProduct(null);
+      setSelectedQuantity(1);
+    }
+  };
+
+  const handleRemoveProduct = (productId) => {
+    const updatedList = selectedProductsList.filter(
+      (item) => item.productId !== productId
+    );
+    setSelectedProductsList(updatedList);
+  };
+
   const handleCheckout = () => {
-    setTotal(quantity * price);
+    // Calculate total here
     // Handle checkout logic here
   };
 
@@ -63,17 +99,24 @@ export default function CheckoutForm() {
         </div>
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">
-            Tên sản phẩm
+            Chọn sản phẩm
           </label>
           <select
-            value={selectedProduct}
+            value={selectedProduct ? selectedProduct.name : ""}
             onChange={handleProductChange}
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           >
             <option value="">Chọn sản phẩm</option>
             {productData.map((product) => (
               <option key={product.productId} value={product.name}>
-                {product.name}
+                <div className="flex items-center">
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="w-8 h-8 mr-2"
+                  />
+                  {product.name}
+                </div>
               </option>
             ))}
           </select>
@@ -84,15 +127,82 @@ export default function CheckoutForm() {
           </label>
           <input
             type="number"
-            value={quantity}
+            value={selectedQuantity}
             onChange={handleQuantityChange}
             min="0"
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           />
         </div>
         <div className="mb-4">
+          <button
+            type="button"
+            onClick={handleAddProduct}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          >
+            Thêm sản phẩm
+          </button>
+        </div>
+        <label className="block text-gray-700 text-sm font-bold mb-2">
+          Danh sách sản phẩm
+        </label>
+        <div className="mb-4 overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200 text-left">
+            <thead className="bg-gray-50">
+              <tr>
+                <th
+                  scope="col"
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  Tên sản phẩm
+                </th>
+                <th
+                  scope="col"
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  Số lượng
+                </th>
+                <th
+                  scope="col"
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  Đơn giá
+                </th>
+                <th
+                  scope="col"
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  Hành động
+                </th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200 ">
+              {selectedProductsList.map((product) => (
+                <tr key={product.productId}>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {product.name}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {product.quantity}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <PriceComponent price={product.price} />
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                    <button
+                      onClick={() => handleRemoveProduct(product.productId)}
+                      className="text-red-500 hover:text-red-700"
+                    >
+                      Xóa
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">
-            Dịch vụ
+            Chọn dịch vụ
           </label>
           {serviceData.map((service) => (
             <div key={service.serviceId} className="flex items-center">
@@ -105,12 +215,6 @@ export default function CheckoutForm() {
               <label className="text-gray-700">{service.name}</label>
             </div>
           ))}
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
-            Giá tiền
-          </label>
-          <PriceComponent price={price} />
         </div>
 
         <div className="mb-4">

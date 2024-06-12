@@ -58,7 +58,7 @@ export default function Bill() {
       <div className="md:w-1/2 px-5 pt-6  bg-slate-100 h-[90vh]">
         <span className="text-xl">Danh sách hóa đơn</span>
         <div className="rounded-lg shadow-lg overflow-x-auto ">
-          <table className="min-w-full bg-white mt-3 rounded-lg ">
+          <table className="min-w-full bg-white mt-3 rounded-lg text-left">
             <thead className="bg-gray-800 text-white">
               <tr>
                 <th className="w-1/4 px-4 py-2">#</th>
@@ -91,7 +91,7 @@ export default function Bill() {
           <div>
             <span className="text-xl">Chi tiết hóa đơn</span>
             <div className="rounded-lg shadow-lg overflow-x-auto">
-              <table className="min-w-full bg-white mt-3 rounded-lg">
+              <table className="min-w-full bg-white mt-3 rounded-lg text-left">
                 <thead className="bg-gray-800 text-white">
                   <tr>
                     <th className="w-1/4 px-4 py-2">Sản Phẩm</th>

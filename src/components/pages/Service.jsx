@@ -1,86 +1,85 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ServiceTable from "../ServiceTable";
+import { SERVICE_API } from "../../router/ApiRoutes";
+import axios from "axios";
 
 const Service = () => {
-  const [services, setServices] = useState([
-    {
-      serviceName: "Nails",
-      serviceDetails: [
-        { serviceDetailId: 1, name: "Nail design", time: 60, price: "50000" },
-        { serviceDetailId: 2, name: "Manicure", time: 30, price: "50000" },
-        // Add more nails services as needed
-      ],
-    },
-    {
-      serviceName: "Spa",
-      serviceDetails: [
-        { serviceDetailId: 1, name: "Facial", time: 90, price: "50000" },
-        { serviceDetailId: 2, name: "Massage", time: 60, price: "50000" },
-        // Add more spa services as needed
-      ],
-    },
-    {
-      serviceName: "Gội đầu",
-      serviceDetails: [
-        { serviceDetailId: 1, name: "Hair Wash", time: 20, price: "50000" },
-        {
-          serviceDetailId: 2,
-          name: "Hair Treatment",
-          time: 40,
-          price: "50000",
-        },
-        // Add more shampoo services as needed
-      ],
-    },
-    {
-      serviceName: "Triệt lông",
-      serviceDetails: [
-        { serviceDetailId: 1, name: "Leg Waxing", time: 45, price: "50000" },
-        { serviceDetailId: 2, name: "Arm Waxing", time: 30, price: "50000" },
-        // Add more waxing services as needed
-      ],
-    },
-  ]);
-
+  const [services, setServices] = useState([]);
+  const [updateServiceDetails, setUpdateServiceDetails] = useState();
   const [newServiceName, setNewServiceName] = useState("");
   const [isAddServiceModalOpen, setAddServiceModalOpen] = useState(false);
   const [selectedServiceIndex, setSelectedServiceIndex] = useState(0);
   const [newServiceDetail, setNewServiceDetail] = useState({
-    name: "",
-    time: "",
-    price: "",
+    serviceDetailsName: "",
+    time: 0,
+    price: 0,
+    status: "Đang kinh doanh",
   });
   const [isAddServiceDetailModalOpen, setAddServiceDetailModalOpen] =
     useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
-  const handleAddService = () => {
+  const handleAddService = async () => {
     const newService = {
       serviceName: newServiceName,
       serviceDetails: [],
     };
-    setServices([...services, newService]);
+    const response = await axios.post(SERVICE_API, newService);
+
+    setServices([...services, response.data.data]);
     setNewServiceName("");
     setAddServiceModalOpen(false);
   };
 
-  const handleAddServiceDetail = () => {
+  const handleAddServiceDetail = async () => {
     const updatedServices = [...services];
+    const response = await axios.post(
+      SERVICE_API +
+        updatedServices[selectedServiceIndex].serviceId +
+        "/serviceDetail",
+      newServiceDetail
+    );
+    console.log(response.data.data);
     updatedServices[selectedServiceIndex].serviceDetails.push({
       serviceDetailId:
         updatedServices[selectedServiceIndex].serviceDetails.length + 1,
-      ...newServiceDetail,
+      ...response.data.data,
     });
     setServices(updatedServices);
     setNewServiceDetail({
-      name: "",
-      time: "",
-      price: "",
+      serviceDetailsName: "",
+      time: 0,
+      price: 0,
+      status: "Đang kinh doanh",
     });
     setAddServiceDetailModalOpen(false);
   };
 
+  const handleEditServiceDetail = (serviceId, updatedService) => {
+    setServices((prevServices) =>
+      prevServices.map((service) =>
+        service.serviceId === serviceId
+          ? { ...service, serviceDetails: updatedService }
+          : service
+      )
+    );
+  };
+
+  useEffect(() => {
+    const fetchProductData = async () => {
+      try {
+        const response = await axios.get(SERVICE_API);
+        setServices(response.data.data);
+      } catch (error) {
+        console.error("Error fetching product data:", error);
+      }
+    };
+
+    fetchProductData();
+  }, []);
+
   return (
-    <div className="pt-6 px-5 w-full h-full bg-slate-100 overflow-auto custom-scrollbar max-h-screen">
+    <div className="pt-6 px-5 w-full h-full bg-slate-100 md:overflow-auto md:custom-scrollbar md:max-h-screen">
       <button
         className="mb-4 px-4 py-2 bg-blue-500 text-white rounded"
         onClick={() => setAddServiceModalOpen(true)}
@@ -98,8 +97,11 @@ const Service = () => {
       {services.map((service, index) => (
         <ServiceTable
           key={index}
-          serviceName={service.serviceName}
-          services={service.serviceDetails}
+          service={service}
+          serviceDetails={service.serviceDetails}
+          onEditServiceDetail={(updatedService) =>
+            handleEditServiceDetail(service.serviceId, updatedService)
+          }
         />
       ))}
 
@@ -136,8 +138,9 @@ const Service = () => {
         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-8 rounded">
             <h2 className="text-xl mb-4">Thêm Service Detail</h2>
+            <label>Dịch vụ</label>
             <select
-              className="mb-2 px-4 py-2 border rounded w-full"
+              className="mb-5 px-4 py-2 border rounded w-full"
               value={selectedServiceIndex}
               onChange={(e) =>
                 setSelectedServiceIndex(parseInt(e.target.value))
@@ -149,42 +152,59 @@ const Service = () => {
                 </option>
               ))}
             </select>
+            <label className="">Tên chi tiết dịch vụ</label>
             <input
               type="text"
-              value={newServiceDetail.name}
+              value={newServiceDetail.serviceDetailsName}
               onChange={(e) =>
                 setNewServiceDetail({
                   ...newServiceDetail,
-                  name: e.target.value,
+                  serviceDetailsName: e.target.value,
                 })
               }
               placeholder="Tên Service Detail"
-              className="mb-2 px-4 py-2 border rounded w-full"
+              className="mb-5 px-4 py-2 border rounded w-full"
             />
+            <label className="">Thời gian</label>
             <input
-              type="text"
+              type="number"
               value={newServiceDetail.time}
               onChange={(e) =>
                 setNewServiceDetail({
                   ...newServiceDetail,
-                  time: e.target.value,
+                  time: parseInt(e.target.value),
                 })
               }
               placeholder="Thời gian"
-              className="mb-2 px-4 py-2 border rounded w-full"
+              className="mb-5 px-4 py-2 border rounded w-full"
             />
+            <label className="">Giá tiền</label>
             <input
-              type="text"
+              type="number"
               value={newServiceDetail.price}
               onChange={(e) =>
                 setNewServiceDetail({
                   ...newServiceDetail,
-                  price: e.target.value,
+                  price: parseInt(e.target.value),
                 })
               }
               placeholder="Giá"
-              className="mb-2 px-4 py-2 border rounded w-full"
+              className="mb-5 px-4 py-2 border rounded w-full"
             />
+            <label className="">Trạng thái</label>
+            <select
+              className="mb-2 px-4 py-2 border rounded w-full"
+              value={newServiceDetail.status}
+              onChange={(e) =>
+                setNewServiceDetail({
+                  ...newServiceDetail,
+                  status: e.target.value,
+                })
+              }
+            >
+              <option value="Đang kinh doanh">Đang kinh doanh</option>
+              <option value="Ngừng kinh doanh">Ngừng kinh doanh</option>
+            </select>
             <div className="flex justify-end">
               <button
                 className="mr-2 px-4 py-2 bg-gray-300 rounded"

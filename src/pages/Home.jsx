@@ -19,6 +19,7 @@ import banner8 from "../assets/banner8.jpg";
 import Navigation from "../components/Navigation";
 import PriceComponent from "../util/PriceComponent";
 import Footer from "../components/Footer";
+import { Link } from "react-router-dom";
 
 export default function Home() {
   return (
@@ -40,11 +41,13 @@ export default function Home() {
                 xinh đẹp, hạnh phúc và được yêu thương!
               </span>
             </div>
-            <div className="w-full flex justify-center items-center mt-16 ">
-              <div className=" text-center md:w-2/12 w-5/12 border border-black px-3 py-3 hover:bg-red-400 hover:border-white hover:text-white cursor-pointer">
-                Xem Menu
+            <Link to={"/product"}>
+              <div className="w-full flex justify-center items-center mt-16 ">
+                <div className=" text-center md:w-2/12 w-5/12 border border-black px-3 py-3 hover:bg-red-400 hover:border-white hover:text-white cursor-pointer">
+                  Xem Sảm Phẩm
+                </div>
               </div>
-            </div>
+            </Link>
           </div>
         </div>
 
@@ -287,11 +290,14 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <div className="w-full flex justify-center items-center mt-16 ">
-            <div className=" text-center md:w-2/12 w-5/12 border border-black px-3 py-3 hover:bg-red-400 hover:border-white hover:text-white cursor-pointer">
-              Xem tất cả giá
+          <Link to={"/service"}>
+            <div className="w-full flex justify-center items-center mt-16 ">
+              <div className=" text-center md:w-2/12 w-5/12 border border-black px-3 py-3 hover:bg-red-400 hover:border-white hover:text-white cursor-pointer">
+                Xem tất cả giá
+              </div>
             </div>
-          </div>
+          </Link>
+
           <div className="mt-10 md:flex md:justify-center items-center w-full">
             <img
               src={banner6}

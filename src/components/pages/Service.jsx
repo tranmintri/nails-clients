@@ -39,7 +39,6 @@ const Service = () => {
         "/serviceDetail",
       newServiceDetail
     );
-    console.log(response.data.data);
     updatedServices[selectedServiceIndex].serviceDetails.push({
       serviceDetailId:
         updatedServices[selectedServiceIndex].serviceDetails.length + 1,

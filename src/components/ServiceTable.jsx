@@ -53,16 +53,26 @@ export default function ServiceTable({
   };
 
   return (
-    <div className="">
-      <p className="text-xl mt-8 mb-2">{service.serviceName}</p>
-      <table className="min-w-full bg-white text-left">
+    <div className="w-full overflow-x-auto">
+      <p className="w-full text-xl mt-8 mb-2">{service.serviceName}</p>
+      <table className="min-w-full bg-white text-left w-full">
         <thead className="bg-gray-800 text-white">
           <tr>
-            <th className="py-2 px-4 border-b">Tên dịch vụ</th>
-            <th className="py-2 px-4 border-b">Thời gian (phút)</th>
-            <th className="py-2 px-4 border-b">Giá</th>
-            <th className="py-2 px-4 border-b">Trạng thái</th>
-            <th className="py-2 px-4 border-b">Chỉnh sửa</th>
+            <th className="py-2 px-4 border-b" style={{ width: "25%" }}>
+              Tên dịch vụ
+            </th>
+            <th className="py-2 px-4 border-b" style={{ width: "20%" }}>
+              Thời gian (phút)
+            </th>
+            <th className="py-2 px-4 border-b" style={{ width: "20%" }}>
+              Giá
+            </th>
+            <th className="py-2 px-4 border-b" style={{ width: "20%" }}>
+              Trạng thái
+            </th>
+            <th className="py-2 px-4 border-b" style={{ width: "15%" }}>
+              Chỉnh sửa
+            </th>
           </tr>
         </thead>
         <tbody>

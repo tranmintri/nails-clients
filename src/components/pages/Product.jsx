@@ -250,41 +250,44 @@ export default function Product() {
               <h2 className="text-xl mb-4">
                 {isEditing ? "Chỉnh sửa sản phẩm" : "Thêm sản phẩm mới"}
               </h2>
+              <label>Tên sản phẩm</label>
               <input
                 type="text"
                 name="productName"
                 value={newProduct.productName}
                 onChange={handleChange}
                 placeholder="Tên sản phẩm"
-                className="mb-2 px-4 py-2 border rounded w-full"
+                className="mb-5 px-4 py-2 border rounded w-full"
               />
-
+              <label>Số lượng</label>
               <input
                 type="text"
                 name="quantity"
                 value={newProduct.quantity}
                 onChange={handleChange}
                 placeholder="Số lượng"
-                className="mb-2 px-4 py-2 border rounded w-full"
+                className="mb-5 px-4 py-2 border rounded w-full"
               />
+              <label>Đơn giá</label>
               <input
                 type="text"
                 name="price"
                 value={newProduct.price}
                 onChange={handleChange}
                 placeholder="Giá sản phẩm"
-                className="mb-2 px-4 py-2 border rounded w-full"
+                className="mb-5 px-4 py-2 border rounded w-full"
               />
+              <label>Hình ảnh</label>
               <input
                 type="file"
                 onChange={handleImageUpload}
-                className="mb-2 px-4 py-2 border rounded w-full"
+                className="mb-5 px-4 py-2 border rounded w-full"
               />
               {selectedImage ? (
                 <img
                   src={URL.createObjectURL(selectedImage)}
                   alt="Selected"
-                  className="mb-2 border rounded w-20"
+                  className="mb-5 border rounded w-20"
                 />
               ) : (
                 <div>
@@ -292,11 +295,12 @@ export default function Product() {
                     <img
                       src={currentProduct.image}
                       alt="Selected"
-                      className="mb-2 border rounded w-20"
+                      className="mb-5 border rounded w-20"
                     />
                   )}
                 </div>
               )}
+              <label>Trạng thái</label>
               <select
                 name="status"
                 value={newProduct.status}

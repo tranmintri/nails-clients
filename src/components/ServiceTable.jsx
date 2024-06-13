@@ -118,6 +118,7 @@ export default function ServiceTable({
               onChange={(e) => setEditedName(e.target.value)}
               placeholder="Tên dịch vụ"
               className="mb-5 px-4 py-2 border rounded w-full"
+              required
             />
             <label>Thời gian</label>
             <input
@@ -126,6 +127,7 @@ export default function ServiceTable({
               onChange={(e) => setEditedTime(e.target.value)}
               placeholder="Thời gian (phút)"
               className="mb-5 px-4 py-2 border rounded w-full"
+              required
             />
             <label>Giá tiền</label>
             <input
@@ -133,7 +135,8 @@ export default function ServiceTable({
               value={editedPrice}
               onChange={(e) => setEditedPrice(e.target.value)}
               placeholder="Giá"
-              className="mb-5 px-4 py-2  border rounded w-full"
+              className="mb-5 px-4 py-2  border rounded w-full "
+              required
             />
             <label>Trạng thái</label>
             <select

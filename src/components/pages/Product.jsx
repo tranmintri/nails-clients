@@ -23,10 +23,10 @@ export default function Product() {
   const [isEditing, setIsEditing] = useState(false);
   const [currentProduct, setCurrentProduct] = useState(null);
   const [newProduct, setNewProduct] = useState({
-    productName: "",
+    productName: undefined,
     price: 0,
     quantity: 0,
-    image: "",
+    image: undefined,
     status: "Đang kinh doanh",
   });
 
@@ -171,10 +171,10 @@ export default function Product() {
 
   const resetNewProduct = () => {
     setNewProduct({
-      productName: "",
+      productName: undefined,
       price: 0,
       quantity: 0,
-      image: "",
+      image: undefined,
       status: "Đang kinh doanh",
     });
     setSelectedImage(null);
@@ -258,6 +258,7 @@ export default function Product() {
                 onChange={handleChange}
                 placeholder="Tên sản phẩm"
                 className="mb-5 px-4 py-2 border rounded w-full"
+                required // Thêm required ở đây
               />
               <label>Số lượng</label>
               <input
@@ -267,6 +268,7 @@ export default function Product() {
                 onChange={handleChange}
                 placeholder="Số lượng"
                 className="mb-5 px-4 py-2 border rounded w-full"
+                required
               />
               <label>Đơn giá</label>
               <input
@@ -276,12 +278,14 @@ export default function Product() {
                 onChange={handleChange}
                 placeholder="Giá sản phẩm"
                 className="mb-5 px-4 py-2 border rounded w-full"
+                required
               />
               <label>Hình ảnh</label>
               <input
                 type="file"
                 onChange={handleImageUpload}
                 className="mb-5 px-4 py-2 border rounded w-full"
+                required
               />
               {selectedImage ? (
                 <img

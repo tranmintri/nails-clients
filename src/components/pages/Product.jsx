@@ -246,7 +246,7 @@ export default function Product() {
 
         {isModalOpen && (
           <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
-            <div className="bg-white p-8 rounded w-10/12">
+            <div className="bg-white p-8 rounded w-10/12  overflow-auto max-h-[80vh] mt-20">
               <h2 className="text-xl mb-4">
                 {isEditing ? "Chỉnh sửa sản phẩm" : "Thêm sản phẩm mới"}
               </h2>

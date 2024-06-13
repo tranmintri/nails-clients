@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useStateProvider } from "../context/StateContext";
 import { reducerCases } from "../context/constants";
+import bannerMain from "../assets/bannerMain.png";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -35,10 +36,8 @@ function Login() {
 
   return (
     <div className="flex justify-center items-center h-screen w-screen flex-col gap-6 shadow-xl overflow-hidden bg-slate-200">
-      <div className="flex justify-center items-center gap-2">
-        <span className="md:text-7xl text-3xl font-semibold">
-          Phương Nails & Spa
-        </span>
+      <div className="flex justify-center items-center gap-2 mb-2">
+        <img src={bannerMain} alt="" className="md:w-[500px]" width={350} />
       </div>
       <form
         className="w-full h-fit items-center justify-center px-6"

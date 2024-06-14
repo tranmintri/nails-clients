@@ -274,38 +274,51 @@ export default function Sale() {
             </tbody>
           </table>
         </div>
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
-            Chọn dịch vụ
-          </label>
-          {serviceData.map((service) => (
-            <div key={service.serviceId} className="flex items-center">
-              <p className="mb-14">{service.serviceName}</p>
-              <br />
-              <div>
-                {service.serviceDetails.map(
-                  (
-                    serviceDetail // Thêm dấu () ở đây
-                  ) => (
-                    <React.Fragment key={serviceDetail.serviceDetailId}>
-                      {" "}
-                      {/* Sử dụng React.Fragment để bao bọc nhiều phần tử JSX */}
-                      <input
-                        type="checkbox"
-                        value={serviceDetail.serviceDetailsName}
-                        onChange={handleServiceChange}
-                        className="mr-2 leading-tight"
-                      />
-                      <label className="text-gray-700">
-                        {serviceDetail.serviceDetailsName}
-                      </label>{" "}
-                    </React.Fragment>
-                  )
-                )}
-              </div>
-              {/* Change to serviceDetailsName */}
-            </div>
-          ))}
+        <label className="block text-gray-700 text-sm font-bold mb-4">
+          Chọn dịch vụ
+        </label>
+        <div className="overflow-auto max-h-96 mb-4">
+          <table className="min-w-full bg-white mt-3 rounded-lg text-left border">
+            <thead className="bg-black border border-white ">
+              <tr>
+                {serviceData.map((service) => (
+                  <th
+                    key={service.serviceId}
+                    scope="col"
+                    className="px-6 py-3 text-left text-sm font-medium text-white uppercase tracking-wider border-b"
+                  >
+                    {service.serviceName}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody className="bg-gray-100">
+              <tr>
+                {serviceData.map((service) => (
+                  <td key={service.serviceId} className="px-6 py-4 border">
+                    <ul>
+                      {service.serviceDetails.map((serviceDetail) => (
+                        <li
+                          key={serviceDetail.serviceDetailId}
+                          className="flex items-center py-1"
+                        >
+                          <input
+                            type="checkbox"
+                            value={serviceDetail.serviceDetailsName}
+                            onChange={handleServiceChange}
+                            className="mr-2 md:leading-tight "
+                          />
+                          <label className="text-gray-700">
+                            {serviceDetail.serviceDetailsName}
+                          </label>
+                        </li>
+                      ))}
+                    </ul>
+                  </td>
+                ))}
+              </tr>
+            </tbody>
+          </table>
         </div>
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">

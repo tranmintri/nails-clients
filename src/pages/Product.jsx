@@ -99,9 +99,9 @@ export default function Product() {
   return (
     <div className="w-full pt-10 px-5 pb-5">
       <Navigation />
-      <div className="w-full  px-5 py-8 flex content-center justify-center mt-4">
+      <div className="w-full  px-5 py-8 flex content-center justify-center mt-4 pt-16">
         <div className="bg-slate-100 md:w-3/12 md:block hidden mr-5 p-5 ">
-          <div className="h-full w-full bg-white rounded-lg shadow-lg">
+          <div className="h-screen w-full bg-white rounded-lg shadow-lg">
             <div className="flex flex-col gap-4 p-4">
               <div>
                 <label htmlFor="priceRange">Phạm vi giá:</label>
@@ -136,7 +136,7 @@ export default function Product() {
           </div>
         </div>
 
-        <div className="content-center w-10/12 md:w-9/12 bg-slate-100 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-5 rounded-lg shadow-lg h-full">
+        <div className="content-center w-10/12 md:w-9/12 bg-slate-100 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-5 rounded-lg shadow-lg h-full overflow-auto max-h-[150vh]">
           {productData
             .filter(
               (product) =>

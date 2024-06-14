@@ -1,16 +1,23 @@
 import React, { useEffect, useState } from "react";
 import Home from "./Home";
 import Admin from "./Admin";
+import { useStateProvider } from "../context/StateContext";
+import { reducerCases } from "../context/constants";
 
 export default function Main() {
   const [userExists, setUserExists] = useState(false);
+  const [{ userInfo }, dispatch] = useStateProvider();
 
   useEffect(() => {
-    // Lấy thông tin người dùng từ sessionStorage
     const userInfoString = localStorage.getItem("userInfo");
-    // Kiểm tra xem giá trị có tồn tại không
     if (userInfoString) {
       setUserExists(true);
+      const userInfoObj = JSON.parse(userInfoString); // Parse JSON string to object
+      dispatch({
+        // Dispatch action to set user info
+        type: reducerCases.SET_USER_INFO,
+        userInfo: userInfoObj, // Pass the user object
+      });
     } else {
       setUserExists(false);
     }

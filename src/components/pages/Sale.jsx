@@ -1,44 +1,66 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PriceComponent from "../../util/PriceComponent";
-import hero51 from "../../assets/hero-5-1.jpg";
-
+import axios from "axios";
+import { BILL_API, PRODUCT_API, SERVICE_API } from "../../router/ApiRoutes";
+import { useStateProvider } from "./../../context/StateContext";
+import { toast } from "react-toastify";
 export default function Sale() {
   const [customerName, setCustomerName] = useState("");
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [selectedQuantity, setSelectedQuantity] = useState(1);
-  const [total, setTotal] = useState(0);
   const [selectedProductsList, setSelectedProductsList] = useState([]);
   const [selectedServices, setSelectedServices] = useState([]);
+  const [paymentMethod, setPaymentMethod] = useState("Tiền mặt");
+  const [total, setTotal] = useState(0); // Add state for total amount
+  const [{ userInfo }] = useStateProvider();
+  const [serviceData, setServiceData] = useState([]);
+  const [productData, setProductData] = useState([]);
+  useEffect(() => {
+    const fetcheData = async () => {
+      try {
+        const responseService = await axios.get(SERVICE_API);
+        const responseProduct = await axios.get(PRODUCT_API);
+        setServiceData(responseService.data.data);
+        setProductData(responseProduct.data.data);
+      } catch (error) {
+        console.error("Error fetching product data:", error);
+      }
+    };
 
-  const serviceData = [
-    { serviceId: 1, name: "Gội đầu", amount: 50000 },
-    { serviceId: 2, name: "Cắt móng", amount: 30000 },
-    { serviceId: 3, name: "Tỉa da", amount: 20000 },
-  ];
+    fetcheData();
+  }, []);
 
   const handleServiceChange = (e) => {
     const value = e.target.value;
+    let selectedService = null; // Khởi tạo biến selectedService
+
+    serviceData.forEach((service) => {
+      const foundServiceDetail = service.serviceDetails.find(
+        (detail) => detail.serviceDetailsName === value
+      );
+      if (foundServiceDetail) {
+        selectedService = foundServiceDetail; // Gán selectedService nếu tìm thấy
+      }
+    });
+
     if (e.target.checked) {
       setSelectedServices((prev) => [...prev, value]);
+      if (selectedService) {
+        console.log(selectedService);
+        setTotal((prevTotal) => prevTotal + selectedService.price); // Update total amount
+      }
     } else {
       setSelectedServices((prev) =>
         prev.filter((service) => service !== value)
       );
+      if (selectedService) {
+        setTotal((prevTotal) => prevTotal - selectedService.price); // Update total amount
+      }
     }
   };
 
-  const productData = [
-    {
-      productId: 1,
-      name: "Kem body",
-      amount: 200000,
-      image: "../../assets/hero-5-1.jpg",
-    },
-    { productId: 2, name: "Serum", amount: 300000, image: hero51 },
-  ];
-
   const handleProductChange = (e) => {
-    const selected = productData.find((p) => p.name === e.target.value);
+    const selected = productData.find((p) => p.productName === e.target.value); // Change to productName
     setSelectedProduct(selected);
   };
 
@@ -59,28 +81,79 @@ export default function Sale() {
       } else {
         const newItem = {
           productId: selectedProduct.productId,
-          name: selectedProduct.name,
+          name: selectedProduct.productName,
           quantity: selectedQuantity,
-          price: selectedProduct.amount,
+          price: selectedProduct.price,
           image: selectedProduct.image,
         };
         setSelectedProductsList([...selectedProductsList, newItem]);
       }
+      setTotal(
+        (prevTotal) => prevTotal + selectedProduct.price * selectedQuantity
+      ); // Update total amount
       setSelectedProduct(null);
       setSelectedQuantity(1);
     }
   };
 
   const handleRemoveProduct = (productId) => {
+    const product = selectedProductsList.find(
+      (item) => item.productId === productId
+    );
     const updatedList = selectedProductsList.filter(
       (item) => item.productId !== productId
     );
     setSelectedProductsList(updatedList);
+    setTotal((prevTotal) => prevTotal - product.price * product.quantity); // Update total amount
   };
 
-  const handleCheckout = () => {
-    // Calculate total here
-    // Handle checkout logic here
+  const handleCheckout = async () => {
+    const newInvoice = {
+      date: new Date().toLocaleDateString("vi-VN"),
+      seller: userInfo?.username,
+      total: total, // Use the total amount from state
+      services: selectedServices.map((serviceName) => {
+        let selectedService = null;
+
+        serviceData.forEach((service) => {
+          const foundServiceDetail = service.serviceDetails.find(
+            (detail) => detail.serviceDetailsName === serviceName
+          );
+          if (foundServiceDetail) {
+            selectedService = foundServiceDetail;
+          }
+        });
+
+        return {
+          serviceDetailsId: selectedService.serviceDetailId,
+          serviceDetailsName: selectedService.serviceDetailsName,
+          price: selectedService.price,
+        };
+      }),
+      productOrders: selectedProductsList.map((product) => ({
+        product: {
+          productId: product.productId,
+          productName: product.name,
+          price: product.price,
+        },
+        quantity: product.quantity,
+      })),
+      paymentMethod: paymentMethod,
+      customerName: customerName,
+    };
+
+    console.log(newInvoice);
+    await axios.post(`${BILL_API}`, newInvoice);
+
+    setCustomerName("");
+    setSelectedProductsList([]);
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    checkboxes.forEach((checkbox) => {
+      checkbox.checked = false;
+    });
+    setSelectedServices([]);
+    setTotal(0);
+    toast("Thanh toán thành công");
   };
 
   return (
@@ -102,20 +175,20 @@ export default function Sale() {
             Chọn sản phẩm
           </label>
           <select
-            value={selectedProduct ? selectedProduct.name : ""}
+            value={selectedProduct ? selectedProduct.productName : ""} // Change to productName
             onChange={handleProductChange}
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           >
             <option value="">Chọn sản phẩm</option>
             {productData.map((product) => (
-              <option key={product.productId} value={product.name}>
+              <option key={product.productId} value={product.productName}>
                 <div className="flex items-center">
                   <img
                     src={product.image}
-                    alt={product.name}
+                    alt={product.productName} // Change to productName
                     className="w-8 h-8 mr-2"
                   />
-                  {product.name}
+                  {product.productName}
                 </div>
               </option>
             ))}
@@ -179,7 +252,7 @@ export default function Sale() {
               {selectedProductsList.map((product) => (
                 <tr key={product.productId}>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    {product.name}
+                    {product.name} {/* Change to name */}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     {product.quantity}
@@ -187,8 +260,9 @@ export default function Sale() {
                   <td className="px-6 py-4 whitespace-nowrap">
                     <PriceComponent price={product.price} />
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                  <td className="px-6 py-4 whitespace-nowrap">
                     <button
+                      type="button"
                       onClick={() => handleRemoveProduct(product.productId)}
                       className="text-red-500 hover:text-red-700"
                     >
@@ -206,17 +280,46 @@ export default function Sale() {
           </label>
           {serviceData.map((service) => (
             <div key={service.serviceId} className="flex items-center">
-              <input
-                type="checkbox"
-                value={service.name}
-                onChange={handleServiceChange}
-                className="mr-2 leading-tight"
-              />
-              <label className="text-gray-700">{service.name}</label>
+              <p className="mb-14">{service.serviceName}</p>
+              <br />
+              <div>
+                {service.serviceDetails.map(
+                  (
+                    serviceDetail // Thêm dấu () ở đây
+                  ) => (
+                    <React.Fragment key={serviceDetail.serviceDetailId}>
+                      {" "}
+                      {/* Sử dụng React.Fragment để bao bọc nhiều phần tử JSX */}
+                      <input
+                        type="checkbox"
+                        value={serviceDetail.serviceDetailsName}
+                        onChange={handleServiceChange}
+                        className="mr-2 leading-tight"
+                      />
+                      <label className="text-gray-700">
+                        {serviceDetail.serviceDetailsName}
+                      </label>{" "}
+                    </React.Fragment>
+                  )
+                )}
+              </div>
+              {/* Change to serviceDetailsName */}
             </div>
           ))}
         </div>
-
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            Phương thức thanh toán
+          </label>
+          <select
+            value={paymentMethod}
+            onChange={(e) => setPaymentMethod(e.target.value)}
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          >
+            <option value="tiền mặt">Tiền mặt</option>
+            <option value="chuyển khoản">Chuyển khoản</option>
+          </select>
+        </div>
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">
             Tổng tiền

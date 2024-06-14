@@ -44,7 +44,7 @@ export default function Home() {
             <Link to={"/product"}>
               <div className="w-full flex justify-center items-center mt-16 ">
                 <div className=" text-center md:w-2/12 w-5/12 border border-black px-3 py-3 hover:bg-red-400 hover:border-white hover:text-white cursor-pointer">
-                  Xem Sảm Phẩm
+                  Xem Sản Phẩm
                 </div>
               </div>
             </Link>

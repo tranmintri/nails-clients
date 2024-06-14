@@ -1,90 +1,43 @@
-import React, { useState } from "react";
-import hero51 from "../assets/hero-5-1.jpg";
+import React, { useEffect, useState } from "react";
 import Navigation from "../components/Navigation";
 import Footer from "../components/Footer";
 import PriceComponent from "../util/PriceComponent";
+import axios from "axios";
+import { PRODUCT_API } from "../router/ApiRoutes";
 
 export default function Product() {
-  const productData = [
-    {
-      productId: 1,
-      name: "Kem body",
-      amount: 200000,
-      image: hero51,
-    },
-    {
-      productId: 2,
-      name: "Serum",
-      amount: 300000,
-      image: hero51,
-    },
-    {
-      productId: 1,
-      name: "Kem body",
-      amount: 200000,
-      image: hero51,
-    },
-    {
-      productId: 2,
-      name: "Serum",
-      amount: 300000,
-      image: hero51,
-    },
-    {
-      productId: 1,
-      name: "Kem body",
-      amount: 200000,
-      image: hero51,
-    },
-    {
-      productId: 2,
-      name: "Serum",
-      amount: 300000,
-      image: hero51,
-    },
-    {
-      productId: 1,
-      name: "Kem body",
-      amount: 200000,
-      image: hero51,
-    },
-    {
-      productId: 2,
-      name: "Serum",
-      amount: 300000,
-      image: hero51,
-    },
-    {
-      productId: 1,
-      name: "Kem body",
-      amount: 200000,
-      image: hero51,
-    },
-    {
-      productId: 2,
-      name: "Serum",
-      amount: 300000,
-      image: hero51,
-    },
-    // Add more products as needed
-  ];
+  const [productData, setProductData] = useState([]);
+  useEffect(() => {
+    const fetchProductData = async () => {
+      try {
+        const response = await axios.get(PRODUCT_API);
+        console.log(response.data.data);
+        setProductData(response.data.data);
+      } catch (error) {
+        console.error("Error fetching product data:", error);
+      }
+    };
 
-  const [maxPrice, setMaxPrice] = useState(
-    Math.max(...productData.map((product) => product.amount))
-  ); // Giá trị tối đa của thanh trượt giá
+    fetchProductData();
+  }, []);
 
-  const [priceRange, setPriceRange] = useState([0, maxPrice]); // Giá trị mặc định của phạm vi giá
+  const [maxPrice, setMaxPrice] = useState(0); // Cập nhật maxPrice khi có dữ liệu sản phẩm
+  const [priceRange, setPriceRange] = useState([0, 0]); // Mặc định không chọn bất kỳ phạm vi giá nào
   const [searchCriteria, setSearchCriteria] = useState(""); // Tiêu chí tìm kiếm
   const [searchByName, setSearchByName] = useState(""); // Tên sản phẩm để tìm kiếm
 
+  useEffect(() => {
+    if (productData.length > 0) {
+      const max = Math.max(...productData.map((product) => product.price));
+      setMaxPrice(max);
+      setPriceRange([0, max]); // Mặc định chọn tất cả phạm vi giá
+    }
+  }, [productData]);
+
   const rangeValue = priceRange[1] - priceRange[0];
 
-  // Hàm xử lý sự kiện khi người dùng thay đổi giá trị thanh trượt
   const handlePriceRangeChange = (e) => {
-    // Lấy giá trị mới từ thanh trượt
     const newValue = parseInt(e.target.value);
-
-    // Cập nhật giá trị thanh trượt
     setPriceRange([priceRange[0], priceRange[0] + newValue]);
   };
 
@@ -100,8 +53,9 @@ export default function Product() {
     <div className="w-full pt-10 px-5 pb-5">
       <Navigation />
       <div className="w-full  px-5 py-8 flex content-center justify-center mt-4 pt-16">
-        <div className="bg-slate-100 md:w-3/12 md:block hidden mr-5 p-5 ">
-          <div className="h-screen w-full bg-white rounded-lg shadow-lg">
+        {/* Phần lọc */}
+        <div className="bg-slate-100 md:w-3/12 md:block hidden mr-5 p-5 max-h-screen rounded-lg shadow-lg">
+          <div className="h-[95vh] w-full bg-white rounded-lg shadow-lg max-h-screen">
             <div className="flex flex-col gap-4 p-4">
               <div>
                 <label htmlFor="priceRange">Phạm vi giá:</label>
@@ -110,14 +64,18 @@ export default function Product() {
                   id="priceRange"
                   name="priceRange"
                   min="0"
-                  max={maxPrice} // Đảm bảo giá trị max là khoảng cách giữa max và min
-                  value={rangeValue} // Sử dụng giá trị đã tính toán
+                  max={maxPrice}
+                  value={rangeValue}
                   onChange={handlePriceRangeChange}
                   className="w-full"
                 />
                 <div className="flex justify-between">
-                  <span>{priceRange[0]}</span>
-                  <span>{priceRange[1]}</span>
+                  <span>
+                    <PriceComponent price={priceRange[0]} />
+                  </span>
+                  <span>
+                    <PriceComponent price={priceRange[1]} />
+                  </span>
                 </div>
               </div>
 
@@ -136,34 +94,40 @@ export default function Product() {
           </div>
         </div>
 
-        <div className="content-center w-10/12 md:w-9/12 bg-slate-100 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-5 rounded-lg shadow-lg h-full overflow-auto max-h-[150vh]">
+        {/* Hiển thị sản phẩm */}
+        <div className="justify-center content-center  w-10/12 md:w-9/12 bg-slate-100 flex flex-wrap gap-4 pt-24 pl-5 rounded-lg shadow-lg h-full overflow-auto min-h-screen max-h-screen ">
           {productData
             .filter(
               (product) =>
-                product.amount >= priceRange[0] &&
-                product.amount <= priceRange[1] &&
-                product.name
+                product.price >= priceRange[0] &&
+                product.price <= priceRange[1] &&
+                product.status === "Đang kinh doanh" &&
+                product.productName
                   .toLowerCase()
                   .includes(searchCriteria.toLowerCase()) &&
-                product.name.toLowerCase().includes(searchByName.toLowerCase())
+                product.productName
+                  .toLowerCase()
+                  .includes(searchByName.toLowerCase())
             )
             .map((product) => (
               <div
                 key={product.productId}
-                className="bg-white rounded-lg shadow-md overflow-hidden"
+                className="bg-white rounded-lg shadow-md overflow-hidden w-full md:w-5/12 lg:w-1/5 mr-5 mb-5 h-[50vh] max-h-[50vh]"
               >
                 <img
                   src={product.image}
-                  alt={product.name}
-                  className="w-full h-64 object-cover"
+                  alt={product.productName}
+                  className="w-full h-[23vh] object-cover"
                 />
-                <div className="p-4">
-                  <h3 className="text-xl font-semibold">{product.name}</h3>
-                  <p className="text-gray-600">
-                    Giá: <PriceComponent price={product.amount} />
-                  </p>
+                <div className="p-4 h-[16vh]">
+                  <h3 className="text-xl font-semibold">
+                    {product.productName}
+                  </h3>
                 </div>
-                <div className="bg-gray-100 py-2 px-4">
+                <p className="text-gray-600 h-[5vh] pl-4">
+                  Giá: <PriceComponent price={product.price} />
+                </p>
+                <div className="bg-gray-100 py-2 px-4 h-[6vh]">
                   <button className="text-blue-500 font-semibold hover:text-blue-700 focus:outline-none">
                     Liên hệ
                   </button>

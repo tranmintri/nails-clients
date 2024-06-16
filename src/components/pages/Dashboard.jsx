@@ -5,6 +5,7 @@ import { BILL_API } from "../../router/ApiRoutes";
 import { format } from "date-fns";
 import { CalculateTime } from "../../util/CalculateTime";
 import { toast } from "react-toastify";
+
 export default function Dashboard() {
   const [invoiceData, setInvoiceData] = useState([]);
   const [startDate, setStartDate] = useState("");
@@ -13,6 +14,8 @@ export default function Dashboard() {
   const [billCount, setBillCount] = useState(0);
   const [serviceCount, setServiceCount] = useState(0);
   const [productCount, setProductCount] = useState(0);
+  const [selectedInvoice, setSelectedInvoice] = useState(null);
+
   useEffect(() => {
     const fetchInvoiceData = async () => {
       try {
@@ -50,23 +53,19 @@ export default function Dashboard() {
     fetchInvoiceData();
   }, []);
 
-  const [selectedInvoiceId, setSelectedInvoiceId] = useState(null);
-
   const handleRowClick = (invoiceId) => {
-    setSelectedInvoiceId(invoiceId);
+    const selectedInvoice = invoiceData.find(
+      (invoice) => invoice.billId === invoiceId
+    );
+    console.log(selectedInvoice);
+    setSelectedInvoice(selectedInvoice);
   };
 
-  const selectedInvoice = invoiceData.find(
-    (invoice) => invoice.billId === selectedInvoiceId
-  );
-
-  // Chuyển đổi timestamp sang đối tượng Date
   const convertTimestampToDate = (timestamp) => {
     return new Date(timestamp);
   };
 
   const handleFilter = async () => {
-    // Kiểm tra nếu ngày bắt đầu lớn hơn ngày kết thúc, không thực hiện việc lọc
     if (startDate && endDate && new Date(startDate) > new Date(endDate)) {
       toast("Chọn ngày sai");
       return;
@@ -76,20 +75,6 @@ export default function Dashboard() {
       return;
     }
 
-    // Lọc danh sách hóa đơn
-    // const filteredInvoices = invoiceData.filter((invoice) => {
-    //   // Chuyển đổi startDate và endDate sang đối tượng Date
-    //   const start = new Date(startDate);
-    //   const end = new Date(endDate);
-
-    //   // Chuyển đổi invoice.date từ timestamp sang đối tượng Date
-    //   const invoiceDate = convertTimestampToDate(invoice.date);
-
-    //   // So sánh ngày
-    //   return invoiceDate >= start && invoiceDate <= end;
-    // });
-
-    // Cập nhật danh sách hóa đơn đã lọc
     const res = await axios(
       `${BILL_API}date_range?start=${new Date(startDate)}&end=${new Date(
         endDate
@@ -191,7 +176,7 @@ export default function Dashboard() {
           </table>
         </div>
       </div>
-      {selectedInvoiceId && (
+      {selectedInvoice && (
         <div className="pt-11">
           <span className="text-xl">Chi tiết hóa đơn</span>
           <div className="rounded-lg shadow-lg overflow-x-auto">
@@ -206,49 +191,76 @@ export default function Dashboard() {
                 </tr>
               </thead>
               <tbody className="text-gray-700">
-                {selectedInvoice.billDetail.productOrders.map(
-                  (productOrder, index) => (
-                    <tr key={productOrder.product.productId}>
-                      <td className="border px-4 py-2">
-                        {productOrder.product.productName}
-                      </td>
-                      <td className="border px-4 py-2">
-                        {productOrder.quantity}
-                      </td>
-                      <td className="border px-4 py-2">
-                        <PriceComponent price={productOrder.product.price} />
-                      </td>
-                      {index === 0 && (
-                        <td
-                          className="border px-4 py-2"
-                          rowSpan={
-                            selectedInvoice.billDetail.productOrders.length
-                          }
-                        >
-                          <ul className="">
-                            {selectedInvoice.billDetail.services.map(
-                              (service, idx) => (
-                                <li key={service.serviceDetailsId} className="">
-                                  {service.serviceDetailsName} -{" "}
-                                  <PriceComponent price={service.price} />
-                                </li>
-                              )
-                            )}
-                          </ul>
+                {selectedInvoice.billDetail.productOrders.length > 0 ? (
+                  selectedInvoice.billDetail.productOrders.map(
+                    (productOrder, index) => (
+                      <tr key={productOrder.product.productId}>
+                        <td className="border px-4 py-2">
+                          {productOrder.product.productName}
                         </td>
-                      )}
-                      {index === 0 && (
-                        <td
-                          className="border px-4 py-2"
-                          rowSpan={
-                            selectedInvoice.billDetail.productOrders.length
-                          }
-                        >
-                          <PriceComponent price={selectedInvoice.total} />
+                        <td className="border px-4 py-2">
+                          {productOrder.quantity}
                         </td>
-                      )}
-                    </tr>
+                        <td className="border px-4 py-2">
+                          <PriceComponent price={productOrder.product.price} />
+                        </td>
+                        {index === 0 && (
+                          <td
+                            className="border px-4 py-2"
+                            rowSpan={
+                              selectedInvoice.billDetail.productOrders.length
+                            }
+                          >
+                            <ul className="">
+                              {selectedInvoice.billDetail.services.map(
+                                (service, idx) => (
+                                  <li
+                                    key={service.serviceDetailsId}
+                                    className=""
+                                  >
+                                    {service.serviceDetailsName} -{" "}
+                                    <PriceComponent price={service.price} />
+                                  </li>
+                                )
+                              )}
+                            </ul>
+                          </td>
+                        )}
+                        {index === 0 && (
+                          <td
+                            className="border px-4 py-2"
+                            rowSpan={
+                              selectedInvoice.billDetail.productOrders.length
+                            }
+                          >
+                            <PriceComponent price={selectedInvoice.total} />
+                          </td>
+                        )}
+                      </tr>
+                    )
                   )
+                ) : (
+                  <tr>
+                    <td colSpan="3" className="border px-4 py-2">
+                      Không có sản phẩm
+                    </td>
+
+                    <td className="border px-4 py-2">
+                      <ul className="">
+                        {selectedInvoice.billDetail.services.map(
+                          (service, idx) => (
+                            <li key={service.serviceDetailsId} className="">
+                              {service.serviceDetailsName} -{" "}
+                              <PriceComponent price={service.price} />
+                            </li>
+                          )
+                        )}
+                      </ul>
+                    </td>
+                    <td className="border px-4 py-2">
+                      <PriceComponent price={selectedInvoice.total} />
+                    </td>
+                  </tr>
                 )}
               </tbody>
             </table>

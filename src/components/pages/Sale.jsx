@@ -218,6 +218,7 @@ export default function Sale() {
         <label className="block text-gray-700 text-sm font-bold mb-2">
           Danh sách sản phẩm
         </label>
+
         <div className="mb-4 overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200 text-left">
             <thead className="bg-gray-50">

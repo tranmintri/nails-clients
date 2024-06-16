@@ -55,7 +55,7 @@ export default function ServiceTable({
   return (
     <div className="w-full overflow-x-auto">
       <p className="w-full text-xl mt-8 mb-2">{service.serviceName}</p>
-      <table className="min-w-full bg-white text-left w-full">
+      <table className="min-w-full bg-white text-left w-full ">
         <thead className="bg-gray-800 text-white">
           <tr>
             <th className="py-2 px-4 border-b" style={{ width: "25%" }}>

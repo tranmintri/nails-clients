@@ -7,6 +7,7 @@ import { CalculateTime } from "../../util/CalculateTime";
 export default function Bill() {
   const [selectedInvoice, setSelectedInvoice] = useState(null);
   const [invoiceData, setInvoiceData] = useState([]);
+
   useEffect(() => {
     const fetchInvoiceData = async () => {
       try {
@@ -25,6 +26,7 @@ export default function Bill() {
     const selectedInvoice = invoiceData.find(
       (invoice) => invoice.billId === billId
     );
+    console.log(selectedInvoice);
     setSelectedInvoice(selectedInvoice);
   };
 
@@ -65,69 +67,93 @@ export default function Bill() {
           </table>
         </div>
       </div>
-      <div className="w-full px-5  bg-slate-100 max-h-[45vh]">
+      <div className="w-full px-5 bg-slate-100 max-h-[45vh]">
         {selectedInvoice && (
           <div className="mt-10">
             <span className="text-xl">Chi tiết hóa đơn</span>
-            <div className="rounded-lg shadow-lg overflow-auto max-h-[40vh]">
-              <table className="min-w-full bg-white mt-3 rounded-lg text-left">
+            <div className="rounded-lg shadow-lg overflow-auto max-h-[40vh] mb-5">
+              <table className="min-w-full bg-white mt-3 rounded-lg text-left ">
                 <thead className="bg-gray-800 text-white">
                   <tr>
                     <th className="w-1/6 px-4 py-2">Sản Phẩm</th>
                     <th className="w-1/6 px-4 py-2">Số lượng</th>
                     <th className="w-1/4 px-4 py-2">Giá tiền/sản phẩm</th>
                     <th className="w-1/2 px-4 py-2">Dịch vụ - Giá</th>
-
                     <th className="w-1/6 px-4 py-2">Tổng tiền</th>
                   </tr>
                 </thead>
                 <tbody className="text-gray-700">
-                  {selectedInvoice.billDetail.productOrders.map(
-                    (productOrder, index) => (
-                      <tr key={productOrder.product.productId}>
-                        <td className="border px-4 py-2">
-                          {productOrder.product.productName}
-                        </td>
-                        <td className="border px-4 py-2">
-                          {productOrder.quantity}
-                        </td>
-                        <td className="border px-4 py-2">
-                          <PriceComponent price={productOrder.product.price} />
-                        </td>
-                        {index === 0 && (
-                          <td
-                            className="border px-4 py-2"
-                            rowSpan={
-                              selectedInvoice.billDetail.productOrders.length
-                            }
-                          >
-                            <ul className="">
-                              {selectedInvoice.billDetail.services.map(
-                                (service, idx) => (
-                                  <li
-                                    key={service.serviceDetailsId}
-                                    className=""
-                                  >
-                                    {service.serviceDetailsName} -{" "}
-                                    <PriceComponent price={service.price} />
-                                  </li>
-                                )
-                              )}
-                            </ul>
+                  {selectedInvoice.billDetail.productOrders.length > 0 ? (
+                    selectedInvoice.billDetail.productOrders.map(
+                      (productOrder, index) => (
+                        <tr key={productOrder.product.productId}>
+                          <td className="border px-4 py-2">
+                            {productOrder.product.productName}
                           </td>
-                        )}
-                        {index === 0 && (
-                          <td
-                            className="border px-4 py-2"
-                            rowSpan={
-                              selectedInvoice.billDetail.productOrders.length
-                            }
-                          >
-                            <PriceComponent price={selectedInvoice.total} />
+                          <td className="border px-4 py-2">
+                            {productOrder.quantity}
                           </td>
-                        )}
-                      </tr>
+                          <td className="border px-4 py-2">
+                            <PriceComponent
+                              price={productOrder.product.price}
+                            />
+                          </td>
+                          {index === 0 && (
+                            <td
+                              className="border px-4 py-2"
+                              rowSpan={
+                                selectedInvoice.billDetail.productOrders.length
+                              }
+                            >
+                              <ul className="">
+                                {selectedInvoice.billDetail.services.map(
+                                  (service) => (
+                                    <li
+                                      key={service.serviceDetailsId}
+                                      className=""
+                                    >
+                                      {service.serviceDetailsName} -{" "}
+                                      <PriceComponent price={service.price} />
+                                    </li>
+                                  )
+                                )}
+                              </ul>
+                            </td>
+                          )}
+                          {index === 0 && (
+                            <td
+                              className="border px-4 py-2"
+                              rowSpan={
+                                selectedInvoice.billDetail.productOrders.length
+                              }
+                            >
+                              <PriceComponent price={selectedInvoice.total} />
+                            </td>
+                          )}
+                        </tr>
+                      )
                     )
+                  ) : (
+                    <tr>
+                      <td colSpan="3" className="border px-4 py-2">
+                        Không có sản phẩm
+                      </td>
+                      <td className="border px-4 py-2">
+                        <ul className="">
+                          {selectedInvoice.billDetail.services.map(
+                            (service) => (
+                              <li key={service.serviceDetailsId} className="">
+                                {service.serviceDetailsName} -{" "}
+                                <PriceComponent price={service.price} />
+                              </li>
+                            )
+                          )}
+                        </ul>
+                      </td>
+                      <td className="border px-4 py-2">
+                        <PriceComponent price={selectedInvoice.total} />
+                      </td>
+                    </tr>
                   )}
                 </tbody>
               </table>

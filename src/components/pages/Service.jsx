@@ -80,14 +80,14 @@ const Service = () => {
   return (
     <div className="pt-6 px-5 w-full h-full bg-slate-100 md:overflow-auto md:custom-scrollbar md:max-h-screen">
       <button
-        className="mb-4 px-4 py-2 bg-blue-500 text-white rounded"
+        className="mb-4 px-4 py-2 bg-gradient-to-br from-blue-100 to-blue-200 text-gray-700 rounded"
         onClick={() => setAddServiceModalOpen(true)}
       >
         Thêm dịch vụ
       </button>
 
       <button
-        className="mb-4 ml-4 px-4 py-2 bg-blue-500 text-white rounded"
+        className="mb-4 ml-4 px-4 py-2 bg-gradient-to-br from-orange-100 to-orange-200 text-gray-700"
         onClick={() => setAddServiceDetailModalOpen(true)}
       >
         Thêm chi tiết dịch vụ
@@ -113,7 +113,7 @@ const Service = () => {
               value={newServiceName}
               onChange={(e) => setNewServiceName(e.target.value)}
               placeholder="Tên Service"
-              className="mb-2 px-4 py-2 border rounded w-full"
+              className="mb-2 px-4 py-2 border rounded w-full "
             />
             <div className="flex justify-end">
               <button

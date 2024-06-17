@@ -36,7 +36,7 @@ export default function Bill() {
         <span className="text-xl">Danh sách hóa đơn</span>
         <div className="rounded-lg shadow-lg overflow-auto max-h-[40vh]">
           <table className="min-w-full bg-white mt-3 rounded-lg text-left">
-            <thead className="bg-gray-800 text-white">
+            <thead className="bg-gradient-to-br from-pink-200 to-purple-200 text-gray-700">
               <tr>
                 <th className="w-1/4 px-4 py-2">Tên khách hàng</th>
                 <th className="w-1/4 px-4 py-2">Tên nhân viên</th>
@@ -73,7 +73,7 @@ export default function Bill() {
             <span className="text-xl">Chi tiết hóa đơn</span>
             <div className="rounded-lg shadow-lg overflow-auto max-h-[40vh] mb-5">
               <table className="min-w-full bg-white mt-3 rounded-lg text-left ">
-                <thead className="bg-gray-800 text-white">
+                <thead className="bg-gradient-to-br from-pink-200 to-purple-200 text-gray-700">
                   <tr>
                     <th className="w-1/6 px-4 py-2">Sản Phẩm</th>
                     <th className="w-1/6 px-4 py-2">Số lượng</th>

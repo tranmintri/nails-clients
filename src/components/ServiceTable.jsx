@@ -56,7 +56,7 @@ export default function ServiceTable({
     <div className="w-full overflow-x-auto">
       <p className="w-full text-xl mt-8 mb-2">{service.serviceName}</p>
       <table className="min-w-full bg-white text-left w-full ">
-        <thead className="bg-gray-800 text-white">
+        <thead className="bg-gradient-to-br from-pink-200 to-purple-200 text-gray-700">
           <tr>
             <th className="py-2 px-4 border-b" style={{ width: "25%" }}>
               Tên dịch vụ
@@ -97,7 +97,7 @@ export default function ServiceTable({
               <td className="py-2 px-4 border-b">
                 <button
                   onClick={() => handleEditClick(serviceDetail)}
-                  className="bg-blue-300 rounded-lg px-1 py-2"
+                  className="bg-gradient-to-br from-green-100 to-green-200  rounded-lg px-1 py-2"
                 >
                   Chỉnh sửa
                 </button>

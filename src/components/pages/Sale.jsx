@@ -210,7 +210,7 @@ export default function Sale() {
           <button
             type="button"
             onClick={handleAddProduct}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            className="bg-gradient-to-br from-blue-100 to-blue-200 text-gray-700   font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
           >
             Thêm sản phẩm
           </button>
@@ -280,13 +280,13 @@ export default function Sale() {
         </label>
         <div className="overflow-auto max-h-96 mb-4">
           <table className="min-w-full bg-white mt-3 rounded-lg text-left border">
-            <thead className="bg-black border border-white ">
+            <thead className="bg-gradient-to-br from-pink-200 to-purple-200 border border-white ">
               <tr>
                 {serviceData.map((service) => (
                   <th
                     key={service.serviceId}
                     scope="col"
-                    className="px-6 py-3 text-left text-sm font-medium text-white uppercase tracking-wider border-b"
+                    className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider border-b"
                   >
                     {service.serviceName}
                   </th>
@@ -344,7 +344,7 @@ export default function Sale() {
           <button
             type="button"
             onClick={handleCheckout}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            className="bg-gradient-to-br from-red-100 to-red-200 text-gray-700 hover:bg-blue-700  font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
           >
             Tạo hóa đơn
           </button>

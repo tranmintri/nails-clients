@@ -115,28 +115,28 @@ export default function Dashboard() {
         <div>
           <button
             onClick={handleFilter}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            className="bg-gradient-to-br from-blue-100 to-green-100 shadow-lg text-gray-700 hover:bg-blue-700  font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
           >
             Tìm kiếm
           </button>
         </div>
       </div>
       <div className="w-full md:flex md:justify-center">
-        <div className="md:w-3/12 w-full h-40 mt-5 shadow-xl rounded-lg mr-5 bg-white text-center p-3 content-center">
+        <div className="md:w-3/12 w-full h-40 mt-5 shadow-xl rounded-lg mr-5 bg-gradient-to-br from-yellow-100 to-red-100 text-gray-700 text-center p-3 content-center">
           <p className="text-2xl font-medium">Doanh Thu</p>
           <span>
             <PriceComponent price={total} />
           </span>
         </div>
-        <div className="md:w-3/12 w-full mt-5 h-40 shadow-xl rounded-lg mr-5 bg-white text-center p-3 content-center">
+        <div className="md:w-3/12 w-full mt-5 h-40 shadow-xl rounded-lg mr-5 bg-gradient-to-br from-red-100 to-yellow-100 text-gray-700 text-center p-3 content-center">
           <p className="text-2xl font-medium">Tổng hóa đơn</p>
           <span>{billCount} Hóa đơn</span>
         </div>
-        <div className="md:w-3/12 w-full h-40 shadow-xl mt-5 rounded-lg mr-5 bg-white text-center p-3 content-center">
+        <div className="md:w-3/12 w-full h-40 shadow-xl mt-5 rounded-lg mr-5 bg-gradient-to-br from-yellow-100 to-red-100 text-gray-700 text-center p-3 content-center">
           <p className="text-2xl font-medium">Tổng sản phẩm</p>
           <span>{productCount} Sản phẩm</span>
         </div>
-        <div className="md:w-3/12 w-full mt-5 h-40 shadow-xl rounded-lg bg-white text-center p-3 content-center">
+        <div className="md:w-3/12 w-full mt-5 h-40 shadow-xl rounded-lg bg-gradient-to-br from-red-100 to-yellow-100 text-gray-700 text-center p-3 content-center">
           <p className="text-2xl font-medium">Tổng số dịch vụ</p>
           <span>{serviceCount} Dịch vụ</span>
         </div>
@@ -145,7 +145,7 @@ export default function Dashboard() {
         <span className="text-xl">Danh sách hóa đơn</span>
         <div className="rounded-lg shadow-lg overflow-x-auto mb-10">
           <table className="min-w-full bg-white mt-3 rounded-lg text-left ">
-            <thead className="bg-gray-800 text-white">
+            <thead className="bg-gradient-to-br from-pink-200 to-purple-200 text-gray-700">
               <tr>
                 <th className="w-1/4 px-4 py-2">Tên khách hàng</th>
                 <th className="w-1/4 px-4 py-2">Tên nhân viên</th>
@@ -181,7 +181,7 @@ export default function Dashboard() {
           <span className="text-xl">Chi tiết hóa đơn</span>
           <div className="rounded-lg shadow-lg overflow-x-auto">
             <table className="min-w-full bg-white mt-3 rounded-lg text-left mb-10">
-              <thead className="bg-gray-800 text-white">
+              <thead className="bg-gradient-to-br from-pink-200 to-purple-200 text-gray-700">
                 <tr>
                   <th className="w-1/6 px-4 py-2">Sản Phẩm</th>
                   <th className="w-1/6 px-4 py-2">Số lượng</th>

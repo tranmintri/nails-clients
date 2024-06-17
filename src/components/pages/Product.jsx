@@ -184,7 +184,7 @@ export default function Product() {
   return (
     <div className="px-5 py-8">
       <button
-        className="mb-4 px-4 py-2 bg-blue-500 text-white rounded"
+        className="mb-4 px-4 py-2 bg-gradient-to-br from-blue-100 to-blue-200 text-gray-700 rounded"
         onClick={() => {
           setModalOpen(true);
           setIsEditing(false);
@@ -195,7 +195,7 @@ export default function Product() {
       </button>
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white text-left">
-          <thead className="bg-gray-800 text-white">
+          <thead className="bg-gradient-to-br from-pink-200 to-purple-200 text-gray-700">
             <tr>
               <th className="py-2 px-4 border-b">Hình ảnh</th>
               <th className="py-2 px-4 border-b">Tên sản phẩm</th>

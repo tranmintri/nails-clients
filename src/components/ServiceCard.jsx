@@ -1,4 +1,5 @@
 import React from "react";
+import PriceComponent from "./../util/PriceComponent";
 
 const ServiceCard = ({ service }) => {
   return (
@@ -24,7 +25,7 @@ const ServiceCard = ({ service }) => {
               )}
               {detail.price > 0 && (
                 <p className="text-gray-600">
-                  Giá: {detail.price.toLocaleString("vi-VN")} VND
+                  Giá: <PriceComponent price={detail.price} />
                 </p>
               )}
 

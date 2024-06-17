@@ -35,7 +35,7 @@ export default function Navigation() {
               </Link>
             </li>
             <li>
-              <Link className="hover:text-gray-400 text-xl mr-11" to="/">
+              <Link className="hover:text-gray-400 text-xl mr-11" to="/service">
                 Dịch vụ
               </Link>
             </li>
@@ -82,7 +82,7 @@ export default function Navigation() {
             <li onClick={navHandle}>
               <Link
                 className="block py-4 px-6 text-lg hover:bg-gray-100"
-                to="/"
+                to="/service"
                 // onClick={toggleMenu}
               >
                 Dịch vụ

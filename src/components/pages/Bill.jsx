@@ -6,6 +6,7 @@ import { CalculateTime } from "../../util/CalculateTime";
 import logoBlackNails from "../../assets/logo1.png";
 import html2canvas from "html2canvas";
 import { saveAs } from "file-saver";
+import PriceComponentBill from "../../util/PriceComponentBill";
 
 export default function Bill() {
   const [selectedInvoice, setSelectedInvoice] = useState(null);
@@ -204,57 +205,67 @@ export default function Bill() {
         )}
       </div>
       {showModal && (
-        <div className="fixed inset-0 flex items-center justify-center h-screen bg-black bg-opacity-50 ">
-          <div className=" bg-white px-5 py-4 w-80  mt-20" id="modal-content">
-            <div className="flex justify-center w-full mb-2">
-              <img
-                src={logoBlackNails}
-                alt="Logo"
-                width={60}
-                className="md:w-16"
-              />
+        <div className="fixed inset-0 flex items-center pt-20 justify-center h-screen bg-black bg-opacity-50 ">
+          <div
+            className=" bg-white rounded-lg px-3 py-2 w-56 "
+            id="modal-content "
+          >
+            <div className="flex justify-between w-full mb-1 items-center">
+              <div className=" ">
+                <p className="mb-1 text-[8px]">9/2A Hẻm 855</p>
+                <p className="mb-1 text-[8px]">Nguyễn Bình Nhơn Đức,</p>
+                <p className="mb-1 text-[8px]">Nhà Bè TPHCM</p>
+              </div>
+              <div className="2">
+                <img
+                  src={logoBlackNails}
+                  alt="Logo"
+                  width={50}
+                  className="md:w-16"
+                />
+              </div>
             </div>
             <div>
-              <p className="mb-2 text-xl flex justify-center w-full">
+              <p className="mb-1 text-[15px] flex justify-center w-full">
                 Phương Nails & Spa
               </p>
-              <p className="mb-2 flex justify-center w-full">
-                9/2A Hẻm 855 Nguyễn Bình
-              </p>
-              <p className="mb-2 flex justify-center w-full">
-                Nhơn Đức, Nhà Bè TPHCM
-              </p>
-              <p className="mb-2">
+              <p className="mb-1 text-[10px]">
                 Ngày: {new Date(selectedInvoice.date).toLocaleDateString()}
               </p>
-              <p className="mb-2">Khách hàng: {selectedInvoice.customerName}</p>
+              <p className="mb-1 text-[10px]">
+                Khách hàng: {selectedInvoice.customerName}
+              </p>
             </div>
 
             {/* Display product orders in a table */}
             <div>
-              <h3 className="text-lg font-bold mt-4 mb-2">Sản phẩm:</h3>
-              <table className="w-full border-collapse border border-gray-400">
+              <h3 className="text-[10px] font-bold mt-1 mb-1 flex justify-center">
+                Sản phẩm
+              </h3>
+              <table className="text-[8px] w-full border-collapse border border-gray-400">
                 <thead>
                   <tr>
-                    <th className="border border-gray-400 px-4 py-2">Tên</th>
-                    <th className="border border-gray-400 px-4 py-2">
+                    <th className="border border-gray-400 px-2 py-1">Tên</th>
+                    <th className="border border-gray-400 px-2 py-1">
                       Số lượng
                     </th>
-                    <th className="border border-gray-400 px-4 py-2">Giá</th>
+                    <th className="border border-gray-400 px-2 py-1">Giá</th>
                   </tr>
                 </thead>
                 <tbody>
                   {selectedInvoice.billDetail.productOrders.map(
                     (productOrder, index) => (
                       <tr key={index}>
-                        <td className="border border-gray-400 px-4 py-2">
+                        <td className="text-[8px] border border-gray-400 px-2 py-1">
                           {productOrder.product.productName}
                         </td>
-                        <td className="border border-gray-400 px-4 py-2">
+                        <td className="border border-gray-400 px-2 py-1">
                           {productOrder.quantity}
                         </td>
-                        <td className="border border-gray-400 px-4 py-2">
-                          {productOrder.product.price}
+                        <td className="border border-gray-400 px-2 py-1">
+                          <PriceComponentBill
+                            price={productOrder.product.price}
+                          />
                         </td>
                       </tr>
                     )
@@ -264,15 +275,17 @@ export default function Bill() {
             </div>
 
             {/* Display services in a list */}
-            <h3 className="text-lg font-bold mt-4 mb-2">Dịch vụ:</h3>
+            <h3 className="text-[10px] font-bold mt-1 mb-1 flex justify-center">
+              Dịch vụ
+            </h3>
             <div className="flex justify-center">
-              <table className="border-collapse border border-gray-400">
+              <table className="text-[8px] border-collapse border border-gray-400">
                 <thead>
                   <tr>
-                    <th className="border border-gray-400 px-4 py-2 font-bold text-left">
+                    <th className="text-[8px] border border-gray-400 px-4 py-1 font-bold text-left">
                       Tên dịch vụ
                     </th>
-                    <th className="border border-gray-400 px-4 py-2 font-bold text-left">
+                    <th className="text-[8px] border border-gray-400 px-4 py-1   font-bold text-left">
                       Giá
                     </th>
                   </tr>
@@ -280,38 +293,41 @@ export default function Bill() {
                 <tbody>
                   {selectedInvoice.billDetail.services.map((service, index) => (
                     <tr key={index}>
-                      <td className="border border-gray-400 px-4 py-2">
+                      <td className="border text-[8px] border-gray-400 px-2 py-1">
                         {service.serviceDetailsName}
                       </td>
-                      <td className="border border-gray-400 px-4 py-2">
-                        <PriceComponent price={service.price} />
+                      <td className="border text-[8px] border-gray-400 px-2 py-1">
+                        <PriceComponentBill price={service.price} />
                       </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
-            <p className="mb-2 flex justify-end mt-3">
-              Phương thức thanh toán: {selectedInvoice.paymentMethod}
+            <p className="mb-1 text-[10px] flex justify-end mt-3">
+              Phương thức thanh toán:{" "}
+              <span className="ml-3">{selectedInvoice.paymentMethod}</span>
             </p>
-            <p className="mb-2 mt-2 font-bold flex justify-end">
-              Tổng cộng:{" "}
-              <span className="ml-3">
-                <PriceComponent price={selectedInvoice.total} />
-              </span>
-            </p>
+            <div className="text-[10px] mb-1 mt-1 font-bold flex justify-end">
+              <div className="text-[10px]">
+                Tổng cộng:{" "}
+                <span className="ml-3 text-[10px]">
+                  <PriceComponentBill price={selectedInvoice.total} />
+                </span>
+              </div>
+            </div>
 
             <button
               id="print-button"
               onClick={handlePrint}
-              className="bg-green-500 text-white py-2 px-4 rounded mt-4 mr-3"
+              className="bg-green-500  text-white py-1 px-4 rounded mt-2 mr-3 text-[10px]"
             >
               In
             </button>
             <button
               id="close-button"
               onClick={handleClose}
-              className="bg-red-500 text-white py-2 px-4 rounded mt-4"
+              className="bg-red-500 text-white py-1 px-4 rounded mt-2 text-[10px]"
             >
               Đóng
             </button>

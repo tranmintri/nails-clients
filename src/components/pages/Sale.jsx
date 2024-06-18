@@ -4,6 +4,7 @@ import axios from "axios";
 import { BILL_API, PRODUCT_API, SERVICE_API } from "../../router/ApiRoutes";
 import { useStateProvider } from "./../../context/StateContext";
 import { toast } from "react-toastify";
+
 export default function Sale() {
   const [customerName, setCustomerName] = useState("");
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -15,8 +16,9 @@ export default function Sale() {
   const [{ userInfo }] = useStateProvider();
   const [serviceData, setServiceData] = useState([]);
   const [productData, setProductData] = useState([]);
+
   useEffect(() => {
-    const fetcheData = async () => {
+    const fetchData = async () => {
       try {
         const responseService = await axios.get(SERVICE_API);
         const responseProduct = await axios.get(PRODUCT_API);
@@ -27,39 +29,39 @@ export default function Sale() {
       }
     };
 
-    fetcheData();
+    fetchData();
   }, []);
 
   const handleServiceChange = (e) => {
     const value = e.target.value;
-    let selectedService = null; // Khởi tạo biến selectedService
+    let selectedService = null;
 
     serviceData.forEach((service) => {
       const foundServiceDetail = service.serviceDetails.find(
         (detail) => detail.serviceDetailsName === value
       );
       if (foundServiceDetail) {
-        selectedService = foundServiceDetail; // Gán selectedService nếu tìm thấy
+        selectedService = foundServiceDetail;
       }
     });
 
     if (e.target.checked) {
       setSelectedServices((prev) => [...prev, value]);
       if (selectedService) {
-        setTotal((prevTotal) => prevTotal + selectedService.price); // Update total amount
+        setTotal((prevTotal) => prevTotal + selectedService.price);
       }
     } else {
       setSelectedServices((prev) =>
         prev.filter((service) => service !== value)
       );
       if (selectedService) {
-        setTotal((prevTotal) => prevTotal - selectedService.price); // Update total amount
+        setTotal((prevTotal) => prevTotal - selectedService.price);
       }
     }
   };
 
   const handleProductChange = (e) => {
-    const selected = productData.find((p) => p.productName === e.target.value); // Change to productName
+    const selected = productData.find((p) => p.productName === e.target.value);
     setSelectedProduct(selected);
   };
 
@@ -70,11 +72,23 @@ export default function Sale() {
 
   const handleAddProduct = () => {
     if (selectedProduct) {
+      if (selectedQuantity > selectedProduct.quantity) {
+        toast.error("Số lượng sản phẩm không đủ");
+        return;
+      }
+
       const index = selectedProductsList.findIndex(
         (item) => item.productId === selectedProduct.productId
       );
       if (index !== -1) {
         const updatedList = [...selectedProductsList];
+        if (
+          updatedList[index].quantity + selectedQuantity >
+          selectedProduct.quantity
+        ) {
+          toast.error("Số lượng sản phẩm không đủ");
+          return;
+        }
         updatedList[index].quantity += selectedQuantity;
         setSelectedProductsList(updatedList);
       } else {
@@ -87,9 +101,22 @@ export default function Sale() {
         };
         setSelectedProductsList([...selectedProductsList, newItem]);
       }
+
+      // Decrease the available quantity of the selected product
+      const updatedProductData = productData.map((product) => {
+        if (product.productId === selectedProduct.productId) {
+          return {
+            ...product,
+            quantity: product.quantity - selectedQuantity,
+          };
+        }
+        return product;
+      });
+      setProductData(updatedProductData);
+
       setTotal(
         (prevTotal) => prevTotal + selectedProduct.price * selectedQuantity
-      ); // Update total amount
+      );
       setSelectedProduct(null);
       setSelectedQuantity(1);
     }
@@ -103,14 +130,30 @@ export default function Sale() {
       (item) => item.productId !== productId
     );
     setSelectedProductsList(updatedList);
-    setTotal((prevTotal) => prevTotal - product.price * product.quantity); // Update total amount
+    setTotal((prevTotal) => prevTotal - product.price * product.quantity);
+
+    // Restore the quantity of the removed product
+    const updatedProductData = productData.map((p) => {
+      if (p.productId === productId) {
+        return {
+          ...p,
+          quantity: p.quantity + product.quantity,
+        };
+      }
+      return p;
+    });
+
+    setProductData(updatedProductData);
+    setSelectedProduct(null);
+    setSelectedQuantity(1);
+    // Log updated product data to check the changes
   };
 
   const handleCheckout = async () => {
     const newInvoice = {
       date: new Date().toLocaleDateString("vi-VN"),
       seller: userInfo?.username,
-      total: total, // Use the total amount from state
+      total: total,
       services: selectedServices.map((serviceName) => {
         let selectedService = null;
 
@@ -151,7 +194,7 @@ export default function Sale() {
     });
     setSelectedServices([]);
     setTotal(0);
-    toast("Thanh toán thành công");
+    toast("Tạo thành công");
   };
 
   return (
@@ -173,7 +216,7 @@ export default function Sale() {
             Chọn sản phẩm
           </label>
           <select
-            value={selectedProduct ? selectedProduct.productName : ""} // Change to productName
+            value={selectedProduct ? selectedProduct.productName : ""}
             onChange={handleProductChange}
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           >
@@ -183,7 +226,7 @@ export default function Sale() {
                 <div className="flex items-center">
                   <img
                     src={product.image}
-                    alt={product.productName} // Change to productName
+                    alt={product.productName}
                     className="w-8 h-8 mr-2"
                   />
                   {product.productName}
@@ -251,7 +294,7 @@ export default function Sale() {
               {selectedProductsList.map((product) => (
                 <tr key={product.productId}>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    {product.name} {/* Change to name */}
+                    {product.name}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     {product.quantity}

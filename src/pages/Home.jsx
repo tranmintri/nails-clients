@@ -155,7 +155,7 @@ export default function Home() {
         </div>
         <div className="w-full pt-5 pb-5">
           <div className="w-full flex flex-wrap justify-center items-center">
-            <span className="md:text-5xl text-4xl">Bảng giá</span>
+            <span className="md:text-5xl text-4xl">Bảng dịch vụ</span>
           </div>
           <div className="w-full flex flex-wrap justify-center items-center pl-7 mt-10">
             <div className="md:w-5/12 w-full mr-10">
@@ -165,9 +165,7 @@ export default function Home() {
                     Cắt da tay chân
                   </p>
 
-                  <p>
-                    <PriceComponent price={30000} />
-                  </p>
+                  <p>Liên hệ</p>
                 </div>
                 <p className="text-center md:text-left text-gray-400">
                   Thời gian khoảng 25 phút
@@ -176,9 +174,7 @@ export default function Home() {
               <div className="mb-3">
                 <div className="md:flex md:justify-between text-center items-center">
                   <p className="text-xl md:text-2xl font-semibold">Sơn Gel</p>
-                  <p>
-                    <PriceComponent price={50000} />
-                  </p>
+                  <p>Liên hệ</p>
                 </div>
                 <p className="text-center md:text-left text-gray-400">
                   Thời gian khoảng 25 phút
@@ -189,9 +185,7 @@ export default function Home() {
                   <p className="text-xl md:text-2xl font-semibold">
                     Chăm sóc da
                   </p>
-                  <p>
-                    <PriceComponent price={150000} />
-                  </p>
+                  <p>Liên hệ</p>
                 </div>
                 <p className="text-center md:text-left text-gray-400">
                   Thời gian khoảng 25 phút
@@ -202,9 +196,7 @@ export default function Home() {
                   <p className="text-xl md:text-2xl font-semibold">
                     Chăm sóc da mụn cơ bản
                   </p>
-                  <p>
-                    <PriceComponent price={200000} />
-                  </p>
+                  <p>Liên hệ</p>
                 </div>
                 <p className="text-center md:text-left text-gray-400">
                   Thời gian khoảng 25 phút
@@ -215,9 +207,7 @@ export default function Home() {
                   <p className="text-xl md:text-2xl font-semibold">
                     Gội đầu dưỡng sinh
                   </p>
-                  <p>
-                    <PriceComponent price={179000} />
-                  </p>
+                  <p>Liên hệ</p>
                 </div>
                 <p className="text-center md:text-left text-gray-400">
                   Thời gian khoảng 60 phút
@@ -230,9 +220,7 @@ export default function Home() {
                   <p className="text-xl md:text-2xl font-semibold">
                     Gội bồ kết
                   </p>
-                  <p>
-                    <PriceComponent price={60000} />
-                  </p>
+                  <p>Liên hệ</p>
                 </div>
                 <p className="text-center md:text-left text-gray-400">
                   Thời gian khoảng 40 phút
@@ -243,9 +231,7 @@ export default function Home() {
                   <p className="text-xl md:text-2xl font-semibold">
                     Massage Body
                   </p>
-                  <p>
-                    <PriceComponent price={210000} />
-                  </p>
+                  <p>Liên hệ</p>
                 </div>
                 <p className="text-center md:text-left text-gray-400">
                   Thời gian khoảng 25 phút
@@ -256,9 +242,7 @@ export default function Home() {
                   <p className="text-xl md:text-2xl font-semibold">
                     Massage cổ, vai gáy
                   </p>
-                  <p>
-                    <PriceComponent price={129000} />
-                  </p>
+                  <p>Liên hệ</p>
                 </div>
                 <p className="text-center md:text-left text-gray-400">
                   Thời gian khoảng 25 phút
@@ -269,9 +253,7 @@ export default function Home() {
                   <p className="text-xl md:text-2xl font-semibold">
                     Cấy tế bào gốc
                   </p>
-                  <p>
-                    <PriceComponent price={450000} />
-                  </p>
+                  <p>Liên hệ</p>
                 </div>
                 <p className="text-center md:text-left text-gray-400">
                   Thời gian khoảng 25 phút
@@ -280,9 +262,7 @@ export default function Home() {
               <div className="mb-3">
                 <div className="md:flex md:justify-between text-center items-center">
                   <p className="text-xl md:text-2xl font-semibold">Gắn móng</p>
-                  <p>
-                    <PriceComponent price={50000} />
-                  </p>
+                  <p>Liên hệ</p>
                 </div>
                 <p className="text-center md:text-left text-gray-400">
                   Thời gian khoảng 25 phút

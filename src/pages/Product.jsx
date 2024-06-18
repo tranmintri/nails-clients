@@ -58,28 +58,6 @@ export default function Product() {
           <div className="md:h-[95vh]  w-full bg-white rounded-lg shadow-lg max-h-screen">
             <div className="flex flex-col gap-4 p-4">
               <div>
-                <label htmlFor="priceRange">Phạm vi giá:</label>
-                <input
-                  type="range"
-                  id="priceRange"
-                  name="priceRange"
-                  min="0"
-                  max={maxPrice}
-                  value={rangeValue}
-                  onChange={handlePriceRangeChange}
-                  className="w-full"
-                />
-                <div className="flex justify-between">
-                  <span>
-                    <PriceComponent price={priceRange[0]} />
-                  </span>
-                  <span>
-                    <PriceComponent price={priceRange[1]} />
-                  </span>
-                </div>
-              </div>
-
-              <div>
                 <label htmlFor="searchByName">Tìm kiếm theo tên:</label>
                 <input
                   type="text"
@@ -118,16 +96,14 @@ export default function Product() {
                   <img
                     src={product.image}
                     alt={product.productName}
-                    className="w-full h-[23vh] object-cover"
+                    className="w-full h-[26vh] object-cover"
                   />
-                  <div className="p-4 h-[16vh]">
+                  <div className="p-4 h-[18vh]">
                     <h3 className="text-xl font-semibold">
                       {product.productName}
                     </h3>
                   </div>
-                  <p className="text-gray-600 h-[5vh] pl-4">
-                    Giá: <PriceComponent price={product.price} />
-                  </p>
+
                   <div className="bg-gray-100 py-2 px-4 h-[6vh]">
                     <button className="text-blue-500 font-semibold hover:text-blue-700 focus:outline-none">
                       Liên hệ

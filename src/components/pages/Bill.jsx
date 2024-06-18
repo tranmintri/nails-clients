@@ -208,7 +208,7 @@ export default function Bill() {
         <div className="fixed inset-0 flex items-center pt-20 justify-center h-screen bg-black bg-opacity-50 ">
           <div
             className=" bg-white rounded-lg px-3 py-2 w-56 "
-            id="modal-content "
+            id="modal-content"
           >
             <div className="flex justify-between w-full mb-1 items-center">
               <div className=" ">

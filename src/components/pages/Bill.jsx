@@ -283,7 +283,7 @@ export default function Bill() {
 
             {/* Display services in a list */}
             <div className="flex justify-center">
-              <table className="text-[8px] mt-1 text-center border-collapse border border-gray-400">
+              <table className="text-[8px] mt-1 w-full text-center border-collapse border border-gray-400">
                 <thead>
                   <tr>
                     <th className="text-[8px] border border-gray-400 font-bold text-left">

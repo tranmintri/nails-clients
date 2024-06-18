@@ -3,10 +3,14 @@ import PriceComponent from "../../util/PriceComponent";
 import axios from "axios";
 import { BILL_API } from "../../router/ApiRoutes";
 import { CalculateTime } from "../../util/CalculateTime";
+import logoBlackNails from "../../assets/logo1.png";
+import html2canvas from "html2canvas";
+import { saveAs } from "file-saver";
 
 export default function Bill() {
   const [selectedInvoice, setSelectedInvoice] = useState(null);
   const [invoiceData, setInvoiceData] = useState([]);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const fetchInvoiceData = async () => {
@@ -30,9 +34,38 @@ export default function Bill() {
     setSelectedInvoice(selectedInvoice);
   };
 
+  const handleClose = () => {
+    setShowModal(false);
+  };
+
+  const handlePrint = () => {
+    const node = document.getElementById("modal-content");
+    const printButton = document.getElementById("print-button");
+    const closeButton = document.getElementById("close-button");
+    // Tạm thời ẩn nút in
+    printButton.style.display = "none";
+    closeButton.style.display = "none";
+
+    html2canvas(node, { scale: 4 }).then((canvas) => {
+      canvas.toBlob((blob) => {
+        saveAs(blob, `${Date.now()}.png`);
+      });
+
+      // Hiện lại nút in sau khi chụp ảnh
+      printButton.style.display = "block";
+      closeButton.style.display = "block";
+      setShowModal(false);
+    });
+  };
+
+  const handlePrintClick = (invoice) => {
+    setSelectedInvoice(invoice);
+    setShowModal(true);
+  };
+
   return (
     <div className="max-h-screen overflow-y-auto custom-scrollbar h-[90vh]">
-      <div className="w-full px-5 pt-6 bg-slate-100 max-h-[45vh] ">
+      <div className="w-full px-5 pt-6 bg-slate-100 max-h-[45vh]">
         <span className="text-xl">Danh sách hóa đơn</span>
         <div className="rounded-lg shadow-lg overflow-auto max-h-[40vh]">
           <table className="min-w-full bg-white mt-3 rounded-lg text-left">
@@ -43,13 +76,14 @@ export default function Bill() {
                 <th className="w-1/4 px-4 py-2">Ngày</th>
                 <th className="w-1/4 px-4 py-2">Phương thức thanh toán</th>
                 <th className="w-1/4 px-4 py-2">Thành tiền</th>
+                <th className="w-1/4 px-4 py-2">Hành động</th>
               </tr>
             </thead>
             <tbody className="text-gray-700">
               {invoiceData.map((invoice) => (
                 <tr
                   key={invoice.billId}
-                  className={`cursor-pointer hover:bg-slate-200 `}
+                  className={`cursor-pointer hover:bg-slate-200`}
                   onClick={() => handleRowClick(invoice.billId)}
                 >
                   <td className="border px-4 py-2">{invoice.customerName}</td>
@@ -60,6 +94,14 @@ export default function Bill() {
                   <td className="border px-4 py-2">{invoice.paymentMethod}</td>
                   <td className="border px-4 py-2">
                     <PriceComponent price={invoice.total} />
+                  </td>
+                  <td
+                    className="py-2 px-4 border-b shadow-lg"
+                    onClick={() => handlePrintClick(invoice)}
+                  >
+                    <button className="shadow-lg bg-gradient-to-br from-green-100 to-green-200 rounded-lg px-4 py-2">
+                      In
+                    </button>
                   </td>
                 </tr>
               ))}
@@ -72,7 +114,7 @@ export default function Bill() {
           <div className="mt-10">
             <span className="text-xl">Chi tiết hóa đơn</span>
             <div className="rounded-lg shadow-lg overflow-auto max-h-[40vh] mb-5">
-              <table className="min-w-full bg-white mt-3 rounded-lg text-left ">
+              <table className="min-w-full bg-white mt-3 rounded-lg text-left">
                 <thead className="bg-gradient-to-br from-pink-200 to-purple-200 text-gray-700">
                   <tr>
                     <th className="w-1/6 px-4 py-2">Sản Phẩm</th>
@@ -161,6 +203,121 @@ export default function Bill() {
           </div>
         )}
       </div>
+      {showModal && (
+        <div className="fixed inset-0 flex items-center justify-center h-screen bg-black bg-opacity-50 ">
+          <div className=" bg-white px-5 py-4 w-80  mt-20" id="modal-content">
+            <div className="flex justify-center w-full mb-2">
+              <img
+                src={logoBlackNails}
+                alt="Logo"
+                width={60}
+                className="md:w-16"
+              />
+            </div>
+            <div>
+              <p className="mb-2 text-xl flex justify-center w-full">
+                Phương Nails & Spa
+              </p>
+              <p className="mb-2 flex justify-center w-full">
+                9/2A Hẻm 855 Nguyễn Bình
+              </p>
+              <p className="mb-2 flex justify-center w-full">
+                Nhơn Đức, Nhà Bè TPHCM
+              </p>
+              <p className="mb-2">
+                Ngày: {new Date(selectedInvoice.date).toLocaleDateString()}
+              </p>
+              <p className="mb-2">Khách hàng: {selectedInvoice.customerName}</p>
+            </div>
+
+            {/* Display product orders in a table */}
+            <div>
+              <h3 className="text-lg font-bold mt-4 mb-2">Sản phẩm:</h3>
+              <table className="w-full border-collapse border border-gray-400">
+                <thead>
+                  <tr>
+                    <th className="border border-gray-400 px-4 py-2">Tên</th>
+                    <th className="border border-gray-400 px-4 py-2">
+                      Số lượng
+                    </th>
+                    <th className="border border-gray-400 px-4 py-2">Giá</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {selectedInvoice.billDetail.productOrders.map(
+                    (productOrder, index) => (
+                      <tr key={index}>
+                        <td className="border border-gray-400 px-4 py-2">
+                          {productOrder.product.productName}
+                        </td>
+                        <td className="border border-gray-400 px-4 py-2">
+                          {productOrder.quantity}
+                        </td>
+                        <td className="border border-gray-400 px-4 py-2">
+                          {productOrder.product.price}
+                        </td>
+                      </tr>
+                    )
+                  )}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Display services in a list */}
+            <h3 className="text-lg font-bold mt-4 mb-2">Dịch vụ:</h3>
+            <div className="flex justify-center">
+              <table className="border-collapse border border-gray-400">
+                <thead>
+                  <tr>
+                    <th className="border border-gray-400 px-4 py-2 font-bold text-left">
+                      Tên dịch vụ
+                    </th>
+                    <th className="border border-gray-400 px-4 py-2 font-bold text-left">
+                      Giá
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {selectedInvoice.billDetail.services.map((service, index) => (
+                    <tr key={index}>
+                      <td className="border border-gray-400 px-4 py-2">
+                        {service.serviceDetailsName}
+                      </td>
+                      <td className="border border-gray-400 px-4 py-2">
+                        <PriceComponent price={service.price} />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <p className="mb-2 flex justify-end mt-3">
+              Phương thức thanh toán: {selectedInvoice.paymentMethod}
+            </p>
+            <p className="mb-2 mt-2 font-bold flex justify-end">
+              Tổng cộng:{" "}
+              <span className="ml-3">
+                <PriceComponent price={selectedInvoice.total} />
+              </span>
+            </p>
+
+            <button
+              id="print-button"
+              onClick={handlePrint}
+              className="bg-green-500 text-white py-2 px-4 rounded mt-4 mr-3"
+            >
+              In
+            </button>
+            <button
+              id="close-button"
+              onClick={handleClose}
+              className="bg-red-500 text-white py-2 px-4 rounded mt-4"
+            >
+              Đóng
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

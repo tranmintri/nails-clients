@@ -219,8 +219,8 @@ export default function Sale() {
           Danh sách sản phẩm
         </label>
 
-        <div className="mb-4 overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200 text-left">
+        <div className="mb-4 max-h-[40vh] overflow-auto">
+          <table className="min-w-full divide-y divide-gray-200 text-left ">
             <thead className="bg-gray-50">
               <tr>
                 <th

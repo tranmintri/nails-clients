@@ -9,7 +9,7 @@ export default function Footer() {
     <div className="w-full pt-5 bg-gray-100 min-h-24 md:flex md:justify-between items-center md:px-56 md:pb-10">
       <div className="text-center mt-14">
         <span className="text-3xl font-medium ">Địa chỉ</span>
-        <p className="text-gray-500 mb-2 mt-3 text-xl">Phương Nail - Spa</p>
+        <p className="text-gray-500 mb-2 mt-3 text-xl">Phương Nails - Spa</p>
         <p className="text-gray-500 mb-2 text-xl">9/2A Hẻm 855 Nguyễn Bình</p>
         <p className="text-gray-500 text-xl">Nhơn Đức, Nhà Bè TPHCM</p>
       </div>

@@ -31,8 +31,8 @@ export default function ServiceTable({
         return {
           ...el,
           serviceDetailsName: editedName,
-          time: editedTime,
-          price: editedPrice,
+          time: parseInt(editedTime),
+          price: parseInt(editedPrice),
           status: editedStatus,
         };
       }
@@ -43,8 +43,8 @@ export default function ServiceTable({
       {
         serviceDetailId: serviceDetailsId,
         serviceDetailsName: editedName,
-        time: editedTime,
-        price: editedPrice,
+        time: parseInt(editedTime),
+        price: parseInt(editedPrice),
         status: editedStatus,
       }
     );
@@ -122,7 +122,7 @@ export default function ServiceTable({
             />
             <label>Thời gian</label>
             <input
-              type="text"
+              type="number"
               value={editedTime}
               onChange={(e) => setEditedTime(e.target.value)}
               placeholder="Thời gian (phút)"
@@ -131,7 +131,7 @@ export default function ServiceTable({
             />
             <label>Giá tiền</label>
             <input
-              type="text"
+              type="number"
               value={editedPrice}
               onChange={(e) => setEditedPrice(e.target.value)}
               placeholder="Giá"

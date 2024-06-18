@@ -57,7 +57,7 @@ export default function Dashboard() {
     const selectedInvoice = invoiceData.find(
       (invoice) => invoice.billId === invoiceId
     );
-    console.log(selectedInvoice);
+
     setSelectedInvoice(selectedInvoice);
   };
 

@@ -25,7 +25,6 @@ export default function ServiceTable({
   };
 
   const handleSaveChanges = async (serviceDetailsId) => {
-    console.log(serviceDetailsId);
     const updatedServiceDetails = serviceDetails.map((el) => {
       if (el.serviceDetailId === serviceDetailsId) {
         return {

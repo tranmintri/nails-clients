@@ -17,7 +17,7 @@ export default function Bill() {
     const fetchInvoiceData = async () => {
       try {
         const response = await axios.get(BILL_API);
-        console.log(response.data);
+
         setInvoiceData(response.data);
       } catch (error) {
         console.error("Error fetching product data:", error);
@@ -31,7 +31,7 @@ export default function Bill() {
     const selectedInvoice = invoiceData.find(
       (invoice) => invoice.billId === billId
     );
-    console.log(selectedInvoice);
+
     setSelectedInvoice(selectedInvoice);
   };
 

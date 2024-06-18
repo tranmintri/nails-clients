@@ -46,7 +46,6 @@ export default function Sale() {
     if (e.target.checked) {
       setSelectedServices((prev) => [...prev, value]);
       if (selectedService) {
-        console.log(selectedService);
         setTotal((prevTotal) => prevTotal + selectedService.price); // Update total amount
       }
     } else {
@@ -142,7 +141,6 @@ export default function Sale() {
       customerName: customerName,
     };
 
-    console.log(newInvoice);
     await axios.post(`${BILL_API}`, newInvoice);
 
     setCustomerName("");

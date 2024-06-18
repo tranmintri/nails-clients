@@ -54,7 +54,7 @@ export default function Product() {
           quantity:
             parseInt(existingProduct.quantity) + parseInt(newProduct.quantity),
         };
-        console.log(updatedProduct);
+
         await axios.put(
           `${PRODUCT_API}${existingProduct.productId}`,
           updatedProduct

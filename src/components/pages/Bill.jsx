@@ -55,7 +55,8 @@ export default function Bill() {
         if (isMobile) {
           // Create a temporary URL for the blob
           const url = URL.createObjectURL(blob);
-          // Display instructions to save the image manually
+          // Display instructions to save the image manuall
+          // Open the image in a new tab
           window.open(url);
         } else {
           // Save the image as a file for desktop users
@@ -216,18 +217,18 @@ export default function Bill() {
         )}
       </div>
       {showModal && (
-        <div className="fixed inset-0 flex items-center pt-14 justify-center h-screen bg-black bg-opacity-50 ">
+        <div className="fixed inset-0 flex items-center pt-24 justify-center h-screen bg-black bg-opacity-50 ">
           <div
-            className=" bg-white rounded-lg px-3 py-2 w-56 "
+            className=" bg-white rounded-lg px-2 py-1 w-56 "
             id="modal-content"
           >
-            <div className="flex justify-between w-full mb-1 items-center">
+            <div className="flex justify-between w-full  items-center">
               <div className=" ">
-                <p className="mb-1 text-[8px]">9/2A Hẻm 855</p>
-                <p className="mb-1 text-[8px]">Nguyễn Bình Nhơn Đức,</p>
-                <p className="mb-1 text-[8px]">Nhà Bè TPHCM</p>
+                <p className="text-[8px]">9/2A Hẻm 855</p>
+                <p className=" text-[8px]">Nguyễn Bình Nhơn Đức,</p>
+                <p className="text-[8px]">Nhà Bè TPHCM</p>
               </div>
-              <div className="2">
+              <div className="">
                 <img
                   src={logoBlackNails}
                   alt="Logo"
@@ -237,43 +238,38 @@ export default function Bill() {
               </div>
             </div>
             <div>
-              <p className="mb-1 text-[15px] flex justify-center w-full">
+              <p className="text-[13px] flex justify-center w-full">
                 Phương Nails & Spa
               </p>
-              <p className="mb-1 text-[10px]">
+              <p className=" text-[10px]">
                 Ngày: {new Date(selectedInvoice.date).toLocaleDateString()}
               </p>
-              <p className="mb-1 text-[10px]">
+              <p className=" text-[10px]">
                 Khách hàng: {selectedInvoice.customerName}
               </p>
             </div>
 
             {/* Display product orders in a table */}
             <div>
-              <h3 className="text-[10px] font-bold mt-1 mb-1 flex justify-center">
-                Sản phẩm
-              </h3>
-              <table className="text-[8px] w-full border-collapse border border-gray-400">
+              <table className="text-[8px] text-center w-full border-collapse border border-gray-400">
                 <thead>
                   <tr>
-                    <th className="border border-gray-400 px-2 py-1">Tên</th>
-                    <th className="border border-gray-400 px-2 py-1">
-                      Số lượng
-                    </th>
-                    <th className="border border-gray-400 px-2 py-1">Giá</th>
+                    <th className="border border-gray-400">Tên</th>
+                    <th className="border border-gray-400 ">Số lượng</th>
+                    <th className="border border-gray-400 ">Giá</th>
                   </tr>
                 </thead>
                 <tbody>
                   {selectedInvoice.billDetail.productOrders.map(
                     (productOrder, index) => (
                       <tr key={index}>
-                        <td className="text-[8px] border border-gray-400 px-2 py-1">
+                        <td className="text-[8px] border border-gray-400 ">
                           {productOrder.product.productName}
                         </td>
-                        <td className="border border-gray-400 px-2 py-1">
+                        <td className="border border-gray-400 ">
                           {productOrder.quantity}
                         </td>
-                        <td className="border border-gray-400 px-2 py-1">
+                        <td className="border border-gray-400 ">
                           <PriceComponentBill
                             price={productOrder.product.price}
                           />
@@ -286,17 +282,14 @@ export default function Bill() {
             </div>
 
             {/* Display services in a list */}
-            <h3 className="text-[10px] font-bold mt-1 mb-1 flex justify-center">
-              Dịch vụ
-            </h3>
             <div className="flex justify-center">
-              <table className="text-[8px] border-collapse border border-gray-400">
+              <table className="text-[8px] mt-1 text-center border-collapse border border-gray-400">
                 <thead>
                   <tr>
-                    <th className="text-[8px] border border-gray-400 px-4 py-1 font-bold text-left">
+                    <th className="text-[8px] border border-gray-400 font-bold text-left">
                       Tên dịch vụ
                     </th>
-                    <th className="text-[8px] border border-gray-400 px-4 py-1   font-bold text-left">
+                    <th className="text-[8px] border border-gray-400   font-bold text-left">
                       Giá
                     </th>
                   </tr>
@@ -304,10 +297,10 @@ export default function Bill() {
                 <tbody>
                   {selectedInvoice.billDetail.services.map((service, index) => (
                     <tr key={index}>
-                      <td className="border text-[8px] border-gray-400 px-2 py-1">
+                      <td className="border text-[8px] border-gray-400 ">
                         {service.serviceDetailsName}
                       </td>
-                      <td className="border text-[8px] border-gray-400 px-2 py-1">
+                      <td className="border text-[8px] border-gray-400">
                         <PriceComponentBill price={service.price} />
                       </td>
                     </tr>
@@ -315,11 +308,11 @@ export default function Bill() {
                 </tbody>
               </table>
             </div>
-            <p className="mb-1 text-[10px] flex justify-end mt-3">
+            <p className=" text-[10px] flex justify-end mt-1">
               Phương thức thanh toán:{" "}
               <span className="ml-3">{selectedInvoice.paymentMethod}</span>
             </p>
-            <div className="text-[10px] mb-1 mt-1 font-bold flex justify-end">
+            <div className="text-[10px]  mt-1 font-bold flex justify-end">
               <div className="text-[10px]">
                 Tổng cộng:{" "}
                 <span className="ml-3 text-[10px]">
@@ -331,14 +324,14 @@ export default function Bill() {
             <button
               id="print-button"
               onClick={handlePrint}
-              className="bg-green-500  text-white py-1 px-4 rounded mt-2 mr-3 text-[10px]"
+              className="bg-green-500  text-white py-1 px-2 rounded mt-2 mr-3 text-[8px]"
             >
               In
             </button>
             <button
               id="close-button"
               onClick={handleClose}
-              className="bg-red-500 text-white py-1 px-4 rounded mt-2 text-[10px]"
+              className="bg-red-500 text-white py-1 px-2 rounded mt-2 text-[8px]"
             >
               Đóng
             </button>

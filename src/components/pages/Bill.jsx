@@ -56,10 +56,6 @@ export default function Bill() {
           // Create a temporary URL for the blob
           const url = URL.createObjectURL(blob);
           // Display instructions to save the image manually
-          alert(
-            "Please tap and hold on the image, then select 'Save Image' to save it to your gallery."
-          );
-          // Open the image in a new tab
           window.open(url);
         } else {
           // Save the image as a file for desktop users
@@ -220,7 +216,7 @@ export default function Bill() {
         )}
       </div>
       {showModal && (
-        <div className="fixed inset-0 flex items-center pt-20 justify-center h-screen bg-black bg-opacity-50 ">
+        <div className="fixed inset-0 flex items-center pt-14 justify-center h-screen bg-black bg-opacity-50 ">
           <div
             className=" bg-white rounded-lg px-3 py-2 w-56 "
             id="modal-content"

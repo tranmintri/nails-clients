@@ -251,7 +251,7 @@ export default function Bill() {
 
             {/* Display product orders in a table */}
             <div>
-              <table className="text-[8px] text-center w-full border-collapse border border-gray-400">
+              <table className="text-[8px] text-center mt-1 w-full border-collapse border border-gray-400">
                 <thead>
                   <tr>
                     <th className="border border-gray-400 pb-1">Tên</th>

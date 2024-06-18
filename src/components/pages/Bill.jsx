@@ -263,7 +263,7 @@ export default function Bill() {
                   {selectedInvoice.billDetail.productOrders.map(
                     (productOrder, index) => (
                       <tr key={index}>
-                        <td className="text-[8px] border border-gray-400 ">
+                        <td className="text-[8px] border border-gray-400 pb-1">
                           {productOrder.product.productName}
                         </td>
                         <td className="border border-gray-400 pb-1">

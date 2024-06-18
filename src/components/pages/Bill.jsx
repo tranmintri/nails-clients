@@ -254,9 +254,9 @@ export default function Bill() {
               <table className="text-[8px] text-center w-full border-collapse border border-gray-400">
                 <thead>
                   <tr>
-                    <th className="border border-gray-400">Tên</th>
-                    <th className="border border-gray-400 ">Số lượng</th>
-                    <th className="border border-gray-400 ">Giá</th>
+                    <th className="border border-gray-400 pb-1">Tên</th>
+                    <th className="border border-gray-400 pb-1">Số lượng</th>
+                    <th className="border border-gray-400 pb-1">Giá</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -266,10 +266,10 @@ export default function Bill() {
                         <td className="text-[8px] border border-gray-400 ">
                           {productOrder.product.productName}
                         </td>
-                        <td className="border border-gray-400 ">
+                        <td className="border border-gray-400 pb-1">
                           {productOrder.quantity}
                         </td>
-                        <td className="border border-gray-400 ">
+                        <td className="border border-gray-400 pb-1">
                           <PriceComponentBill
                             price={productOrder.product.price}
                           />
@@ -286,10 +286,10 @@ export default function Bill() {
               <table className="text-[8px] mt-1 w-full text-center border-collapse border border-gray-400">
                 <thead>
                   <tr>
-                    <th className="text-[8px] border border-gray-400 font-bold text-left">
+                    <th className="text-[8px] border border-gray-400 font-bold text-left pb-1">
                       Tên dịch vụ
                     </th>
-                    <th className="text-[8px] border border-gray-400   font-bold text-left">
+                    <th className="text-[8px] border border-gray-400 pb-1   font-bold text-left">
                       Giá
                     </th>
                   </tr>
@@ -297,10 +297,10 @@ export default function Bill() {
                 <tbody>
                   {selectedInvoice.billDetail.services.map((service, index) => (
                     <tr key={index}>
-                      <td className="border text-[8px] border-gray-400 ">
+                      <td className="border text-[8px] border-gray-400 pb-1">
                         {service.serviceDetailsName}
                       </td>
-                      <td className="border text-[8px] border-gray-400">
+                      <td className="border text-[8px] border-gray-400 pb-1">
                         <PriceComponentBill price={service.price} />
                       </td>
                     </tr>

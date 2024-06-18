@@ -12,7 +12,6 @@ const reducer = (state, action) => {
         userInfo: action.userInfo,
       };
     case reducerCases.SET_CURRENT_ADMIN_PAGE:
-      console.log(action.currentPage);
       return {
         ...state,
         currentPage: action.currentPage,

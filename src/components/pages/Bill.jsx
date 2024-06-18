@@ -12,12 +12,12 @@ export default function Bill() {
   const [selectedInvoice, setSelectedInvoice] = useState(null);
   const [invoiceData, setInvoiceData] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const fetchInvoiceData = async () => {
       try {
         const response = await axios.get(BILL_API);
-
         setInvoiceData(response.data);
       } catch (error) {
         console.error("Error fetching product data:", error);
@@ -25,6 +25,9 @@ export default function Bill() {
     };
 
     fetchInvoiceData();
+
+    // Check if the user is on a mobile device
+    setIsMobile(/iPhone|iPad|iPod|Android/i.test(navigator.userAgent));
   }, []);
 
   const handleRowClick = (billId) => {
@@ -43,19 +46,31 @@ export default function Bill() {
     const node = document.getElementById("modal-content");
     const printButton = document.getElementById("print-button");
     const closeButton = document.getElementById("close-button");
-    // Tạm thời ẩn nút in
+    // Temporarily hide buttons
     printButton.style.display = "none";
     closeButton.style.display = "none";
 
     html2canvas(node, { scale: 4 }).then((canvas) => {
       canvas.toBlob((blob) => {
-        saveAs(blob, `${Date.now()}.png`);
-      });
+        if (isMobile) {
+          // Create a temporary URL for the blob
+          const url = URL.createObjectURL(blob);
+          // Display instructions to save the image manually
+          alert(
+            "Please tap and hold on the image, then select 'Save Image' to save it to your gallery."
+          );
+          // Open the image in a new tab
+          window.open(url);
+        } else {
+          // Save the image as a file for desktop users
+          saveAs(blob, `${Date.now()}.png`);
+        }
 
-      // Hiện lại nút in sau khi chụp ảnh
-      printButton.style.display = "block";
-      closeButton.style.display = "block";
-      setShowModal(false);
+        // Restore buttons after screenshot is taken
+        printButton.style.display = "block";
+        closeButton.style.display = "block";
+        setShowModal(false);
+      });
     });
   };
 

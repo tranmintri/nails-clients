@@ -16,10 +16,30 @@ function Login() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const userInfoString = localStorage.getItem("userInfo");
-    if (userInfoString) {
-      navigate("/");
-    }
+    const checkLoginStatus = async () => {
+      const userInfoString = localStorage.getItem("userInfo");
+      if (userInfoString) {
+        const userInfoObj = JSON.parse(userInfoString);
+        try {
+          const res = await axios.post(
+            USER_API + "checktoken",
+            {}, // Empty body for POST request
+            {
+              headers: {
+                Authorization: `Bearer ${userInfoObj.refreshToken}`,
+              },
+            }
+          );
+          if (res.data.status) {
+            navigate("/");
+          }
+        } catch (error) {
+          console.error("Error checking login status:", error);
+        }
+      }
+    };
+
+    checkLoginStatus();
   }, [navigate]);
 
   const handleLogin = async (e) => {
@@ -48,6 +68,7 @@ function Login() {
         toast.error("Đăng nhập thất bại");
       }
     } catch (error) {
+      console.error("Error logging in:", error);
       toast.error("Có lỗi xảy ra khi đăng nhập");
     } finally {
       setLoading(false); // End loading
@@ -70,7 +91,10 @@ function Login() {
             onSubmit={handleLogin}
           >
             <div className="mb-6 w-full text-center">
-              <label htmlFor="email" className="block mb-2 text-xl font-medium">
+              <label
+                htmlFor="username"
+                className="block mb-2 text-xl font-medium"
+              >
                 Tên đăng nhập
               </label>
               <input

@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { PRODUCT_API } from "../../router/ApiRoutes";
 import PriceComponent from "../../util/PriceComponent";
+import ClipLoader from "react-spinners/ClipLoader"; // Import ClipLoader
 
 export default function Product() {
   const [productData, setProductData] = useState([]);
+  const [loading, setLoading] = useState(true); // State for loading
 
   useEffect(() => {
     const fetchProductData = async () => {
@@ -13,6 +15,8 @@ export default function Product() {
         setProductData(response.data.data);
       } catch (error) {
         console.error("Error fetching product data:", error);
+      } finally {
+        setLoading(false); // End loading after data is fetched or an error occurs
       }
     };
 
@@ -194,59 +198,63 @@ export default function Product() {
         Thêm sản phẩm
       </button>
       <div className="overflow-x-auto">
-        <table className="min-w-full bg-white text-left">
-          <thead className="bg-gradient-to-br from-pink-200 to-purple-200 text-gray-700">
-            <tr>
-              <th className="py-2 px-4 border-b">Hình ảnh</th>
-              <th className="py-2 px-4 border-b">Tên sản phẩm</th>
-
-              <th className="py-2 px-4 border-b">Số lượng</th>
-              <th className="py-2 px-4 border-b">Giá</th>
-              <th className="py-2 px-4 border-b">Trạng thái</th>
-              <th className="py-2 px-4 border-b">Chỉnh sửa</th>
-            </tr>
-          </thead>
-          <tbody>
-            {productData.map((product) => (
-              <tr key={product.productId}>
-                <td className="py-2 px-4 border-b">
-                  <img
-                    src={product.image}
-                    alt={product.productName}
-                    className="w-16 h-16 object-cover"
-                  />
-                </td>
-                <td className="py-2 px-4 border-b">{product.productName}</td>
-
-                <td className="py-2 px-4 border-b">{product.quantity}</td>
-                <td className="py-2 px-4 border-b">
-                  <PriceComponent price={product.price} />
-                </td>
-                <td
-                  className={`py-2 px-4 border-b ${
-                    product.status == "Ngừng kinh doanh"
-                      ? "text-red-500"
-                      : "text-black"
-                  }`}
-                >
-                  {product.status}
-                </td>
-                <td className="py-2 px-4 border-b">
-                  <button
-                    className="text-blue-500"
-                    onClick={() => handleEditButtonClick(product)}
-                  >
-                    Chỉnh sửa
-                  </button>
-                </td>
+        {loading ? (
+          <div className="flex justify-center items-center h-96">
+            <ClipLoader color="#36D7B7" loading={loading} size={50} />
+          </div>
+        ) : (
+          <table className="min-w-full bg-white text-left">
+            <thead className="bg-gradient-to-br from-pink-200 to-purple-200 text-gray-700">
+              <tr>
+                <th className="py-2 px-4 border-b">Hình ảnh</th>
+                <th className="py-2 px-4 border-b">Tên sản phẩm</th>
+                <th className="py-2 px-4 border-b">Số lượng</th>
+                <th className="py-2 px-4 border-b">Giá</th>
+                <th className="py-2 px-4 border-b">Trạng thái</th>
+                <th className="py-2 px-4 border-b">Chỉnh sửa</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {productData.map((product) => (
+                <tr key={product.productId}>
+                  <td className="py-2 px-4 border-b">
+                    <img
+                      src={product.image}
+                      alt={product.productName}
+                      className="w-16 h-16 object-cover"
+                    />
+                  </td>
+                  <td className="py-2 px-4 border-b">{product.productName}</td>
+                  <td className="py-2 px-4 border-b">{product.quantity}</td>
+                  <td className="py-2 px-4 border-b">
+                    <PriceComponent price={product.price} />
+                  </td>
+                  <td
+                    className={`py-2 px-4 border-b ${
+                      product.status === "Ngừng kinh doanh"
+                        ? "text-red-500"
+                        : "text-black"
+                    }`}
+                  >
+                    {product.status}
+                  </td>
+                  <td className="py-2 px-4 border-b">
+                    <button
+                      className="text-blue-500"
+                      onClick={() => handleEditButtonClick(product)}
+                    >
+                      Chỉnh sửa
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
 
         {isModalOpen && (
           <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
-            <div className="bg-white p-8 rounded w-10/12  overflow-auto max-h-[80vh] mt-20">
+            <div className="bg-white p-8 rounded w-10/12 overflow-auto max-h-[80vh] mt-20">
               <h2 className="text-xl mb-4">
                 {isEditing ? "Chỉnh sửa sản phẩm" : "Thêm sản phẩm mới"}
               </h2>

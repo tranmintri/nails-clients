@@ -7,6 +7,12 @@
   width: 0px;
   /* Độ rộng của thanh cuộn */
 }
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
 .modal-content {
   max-height: 80vh;
   overflow-y: auto;

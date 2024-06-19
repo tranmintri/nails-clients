@@ -4,6 +4,8 @@ import { toast } from "react-toastify";
 import { useStateProvider } from "../context/StateContext";
 import { reducerCases } from "../context/constants";
 import bannerMain from "../assets/bannerMain.png";
+import axios from "axios";
+import { SERVER_LOGIN_HOST, USER_API } from "../router/ApiRoutes";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -20,14 +22,25 @@ function Login() {
     }
   }, []);
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    if (username === "admin" && password === "admin") {
+    const res = await axios.post(USER_API + "login", {
+      username: username,
+      password: password,
+    });
+
+    if (res.data.status) {
       dispatch({
         type: reducerCases.SET_USER_INFO,
-        userInfo: { userInfo: username },
+        userInfo: res.data.token,
       });
-      localStorage.setItem("userInfo", JSON.stringify({ username: username }));
+      localStorage.setItem(
+        "userInfo",
+        JSON.stringify({
+          refreshToken: res.data.token.refreshToken,
+          accessToken: res.data.token.accessToken,
+        })
+      );
       navigate("/");
     } else {
       toast.error("Đăng nhập thất bại");

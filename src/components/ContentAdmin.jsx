@@ -12,7 +12,7 @@ export default function ContentAdmin() {
   const [{ currentPage }, dispatch] = useStateProvider();
   const navigate = useNavigate();
   const [showLogoutModal, setShowLogoutModal] = useState(false); // State để điều khiển modal
-
+  const [{ userInfo }] = useStateProvider();
   const setChooseMenu = (num) => {
     dispatch({
       type: reducerCases.SET_CURRENT_ADMIN_PAGE,
@@ -33,14 +33,17 @@ export default function ContentAdmin() {
     <div className="w-full flex">
       <div className="hidden md:w-2/12 h-[90vh] md:border-r md:border-gray-300 md:block">
         <ul className="text-center">
-          <li
-            className={`text-xl h-14 ${
-              currentPage === 1 ? "bg-slate-200" : "bg-white"
-            } content-center mt-10 cursor-pointer border-b border-gray-300 hover:bg-slate-200`}
-            onClick={() => setChooseMenu(1)}
-          >
-            Trang chủ
-          </li>
+          {userInfo?.role == "manager" && (
+            <li
+              className={`text-xl h-14 ${
+                currentPage === 1 ? "bg-slate-200" : "bg-white"
+              } content-center mt-10 cursor-pointer border-b border-gray-300 hover:bg-slate-200`}
+              onClick={() => setChooseMenu(1)}
+            >
+              Trang chủ
+            </li>
+          )}
+
           <li
             className={`text-xl h-14 ${
               currentPage === 2 ? "bg-gray-200" : "bg-white"
@@ -49,22 +52,27 @@ export default function ContentAdmin() {
           >
             Bán hàng
           </li>
-          <li
-            className={`text-xl h-14 ${
-              currentPage === 3 ? "bg-gray-200" : "bg-white"
-            } content-center cursor-pointer  border-b border-gray-300 hover:bg-slate-200`}
-            onClick={() => setChooseMenu(3)}
-          >
-            Sản phẩm
-          </li>
-          <li
-            className={`text-xl h-14 ${
-              currentPage === 4 ? "bg-gray-200" : "bg-white"
-            } content-center cursor-pointer  border-b border-gray-300 hover:bg-slate-200`}
-            onClick={() => setChooseMenu(4)}
-          >
-            Dịch vụ
-          </li>
+          {userInfo?.role == "manager" && (
+            <li
+              className={`text-xl h-14 ${
+                currentPage === 3 ? "bg-gray-200" : "bg-white"
+              } content-center cursor-pointer  border-b border-gray-300 hover:bg-slate-200`}
+              onClick={() => setChooseMenu(3)}
+            >
+              Sản phẩm
+            </li>
+          )}
+          {userInfo?.role == "manager" && (
+            <li
+              className={`text-xl h-14 ${
+                currentPage === 4 ? "bg-gray-200" : "bg-white"
+              } content-center cursor-pointer  border-b border-gray-300 hover:bg-slate-200`}
+              onClick={() => setChooseMenu(4)}
+            >
+              Dịch vụ
+            </li>
+          )}
+
           <li
             className={`text-xl h-14 ${
               currentPage === 5 ? "bg-gray-200" : "bg-white"

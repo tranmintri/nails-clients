@@ -35,7 +35,7 @@ export default function NavigationAdmin() {
   const [{ currentPage }, dispatch] = useStateProvider();
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false); // State for modal
-
+  const [{ userInfo }] = useStateProvider();
   const setChooseMenu = (num) => {
     dispatch({
       type: reducerCases.SET_CURRENT_ADMIN_PAGE,
@@ -98,14 +98,17 @@ export default function NavigationAdmin() {
             <IoIosCloseCircleOutline className=" text-3xl text-white" />
           </div>
           <ul className="bg-white h-[95vh] rounded-s-lg">
-            <li
-              className={`${
-                currentPage == 1 ? "bg-slate-200" : "bg-white"
-              } block py-4 px-6 text-lg hover:bg-gray-100`}
-              onClick={() => setChooseMenu(1)}
-            >
-              Trang chủ
-            </li>
+            {userInfo?.role == "manager" && (
+              <li
+                className={`${
+                  currentPage == 1 ? "bg-slate-200" : "bg-white"
+                } block py-4 px-6 text-lg hover:bg-gray-100`}
+                onClick={() => setChooseMenu(1)}
+              >
+                Trang chủ
+              </li>
+            )}
+
             <li
               className={`${
                 currentPage == 2 ? "bg-slate-200" : "bg-white"
@@ -114,22 +117,27 @@ export default function NavigationAdmin() {
             >
               Bán hàng
             </li>
-            <li
-              className={`${
-                currentPage == 3 ? "bg-slate-200" : "bg-white"
-              } block py-4 px-6 text-lg hover:bg-gray-100`}
-              onClick={() => setChooseMenu(3)}
-            >
-              Sản phẩm
-            </li>
-            <li
-              className={`${
-                currentPage == 4 ? "bg-slate-200" : "bg-white"
-              } block py-4 px-6 text-lg hover:bg-gray-100`}
-              onClick={() => setChooseMenu(4)}
-            >
-              Dịch vụ
-            </li>
+            {userInfo?.role == "manager" && (
+              <li
+                className={`${
+                  currentPage == 3 ? "bg-slate-200" : "bg-white"
+                } block py-4 px-6 text-lg hover:bg-gray-100`}
+                onClick={() => setChooseMenu(3)}
+              >
+                Sản phẩm
+              </li>
+            )}
+            {userInfo?.role == "manager" && (
+              <li
+                className={`${
+                  currentPage == 4 ? "bg-slate-200" : "bg-white"
+                } block py-4 px-6 text-lg hover:bg-gray-100`}
+                onClick={() => setChooseMenu(4)}
+              >
+                Dịch vụ
+              </li>
+            )}
+
             <li
               className={`${
                 currentPage == 5 ? "bg-slate-200" : "bg-white"

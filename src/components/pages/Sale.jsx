@@ -152,7 +152,7 @@ export default function Sale() {
   const handleCheckout = async () => {
     const newInvoice = {
       date: new Date().toLocaleDateString("vi-VN"),
-      seller: userInfo?.username,
+      seller: userInfo?.role,
       total: total,
       services: selectedServices.map((serviceName) => {
         let selectedService = null;

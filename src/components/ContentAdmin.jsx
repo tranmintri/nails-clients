@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Dashboard from "./pages/Dashboard";
 import Product from "./pages/Product";
 import Service from "./pages/Service";
@@ -9,10 +9,16 @@ import { useStateProvider } from "../context/StateContext";
 import { reducerCases } from "../context/constants";
 
 export default function ContentAdmin() {
-  const [{ currentPage }, dispatch] = useStateProvider();
+  const [{ userInfo, currentPage }, dispatch] = useStateProvider();
   const navigate = useNavigate();
   const [showLogoutModal, setShowLogoutModal] = useState(false); // State để điều khiển modal
-  const [{ userInfo }] = useStateProvider();
+
+  useEffect(() => {
+    dispatch({
+      type: reducerCases.SET_CURRENT_ADMIN_PAGE,
+      currentPage: userInfo?.role == "manager" ? 1 : 2,
+    });
+  }, []);
   const setChooseMenu = (num) => {
     dispatch({
       type: reducerCases.SET_CURRENT_ADMIN_PAGE,

@@ -6,6 +6,7 @@ import { reducerCases } from "../context/constants";
 import axios from "axios";
 import { USER_API } from "../router/ApiRoutes";
 import ClipLoader from "react-spinners/ClipLoader";
+import Loading from "../context/Loading";
 
 export default function Main() {
   const [loading, setLoading] = useState(true); // State for loading
@@ -71,7 +72,8 @@ export default function Main() {
   if (loading) {
     return (
       <div className="loader-container">
-        <ClipLoader color="#36D7B7" loading={loading} size={50} />
+        {/* <ClipLoader color="#36D7B7" loading={loading} size={50} /> */}
+        <Loading />
       </div>
     );
   }

@@ -28,6 +28,11 @@ const ServiceCard = ({ service }) => {
               {detail.time > 0 && (
                 <p className="text-gray-600">Thời gian: {detail.time} phút</p>
               )}
+              {detail.price > 0 && service.serviceName !== "Triệt lông" && (
+                <p className="text-gray-600">
+                  Giá: <PriceComponent price={detail.price} />
+                </p>
+              )}
 
               <div className="mt-2 text-gray-600">
                 <p>Liên hệ</p>

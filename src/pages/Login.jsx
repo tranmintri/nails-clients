@@ -80,7 +80,6 @@ function Login() {
     <div className="flex justify-center items-center h-screen w-screen flex-col gap-6 shadow-xl overflow-hidden bg-slate-200">
       {loading ? (
         <div className="loader-container">
-          {/* <ClipLoader color="#36D7B7" loading={loading} size={50} /> */}
           <Loading />
         </div>
       ) : (

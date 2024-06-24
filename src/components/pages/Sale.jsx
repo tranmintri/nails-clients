@@ -454,7 +454,7 @@ export default function Sale() {
         >
           Thêm charm
         </button>
-        <div className="mt-4">
+        <div className="mt-4 max-h-[40vh] overflow-auto">
           <h3 className="text-gray-700 text-sm font-bold mb-2">
             Charms đã chọn
           </h3>

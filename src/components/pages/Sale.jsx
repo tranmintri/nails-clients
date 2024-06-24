@@ -1,29 +1,39 @@
 import React, { useEffect, useState } from "react";
 import PriceComponent from "../../util/PriceComponent";
 import axios from "axios";
-import { BILL_API, PRODUCT_API, SERVICE_API } from "../../router/ApiRoutes";
+import {
+  BILL_API,
+  CHARM_API,
+  PRODUCT_API,
+  SERVICE_API,
+} from "../../router/ApiRoutes";
 import { useStateProvider } from "./../../context/StateContext";
 import { toast } from "react-toastify";
 
 export default function Sale() {
   const [customerName, setCustomerName] = useState("");
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [selectedCharm, setSelectedCharm] = useState(null);
   const [selectedQuantity, setSelectedQuantity] = useState(1);
   const [selectedProductsList, setSelectedProductsList] = useState([]);
+  const [selectedCharmsList, setSelectedCharmsList] = useState([]);
   const [selectedServices, setSelectedServices] = useState([]);
   const [paymentMethod, setPaymentMethod] = useState("Tiền mặt");
   const [total, setTotal] = useState(0); // Add state for total amount
   const [{ userInfo }] = useStateProvider();
   const [serviceData, setServiceData] = useState([]);
   const [productData, setProductData] = useState([]);
-
+  const [charmData, setCharmData] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
       try {
         const responseService = await axios.get(SERVICE_API);
         const responseProduct = await axios.get(PRODUCT_API);
+        const responseCharm = await axios.get(CHARM_API);
+
         setServiceData(responseService.data.data);
         setProductData(responseProduct.data.data);
+        setCharmData(responseCharm.data);
       } catch (error) {
         console.error("Error fetching product data:", error);
       }
@@ -121,6 +131,46 @@ export default function Sale() {
       setSelectedQuantity(1);
     }
   };
+  const handleCharmChange = (e) => {
+    const selected = charmData.find(
+      (c) => c.price === parseFloat(e.target.value)
+    );
+    setSelectedCharm(selected);
+  };
+  const handleAddCharm = () => {
+    if (selectedCharm) {
+      const index = selectedCharmsList.findIndex(
+        (item) => item.charmId === selectedCharm.charmId
+      );
+      if (index !== -1) {
+        const updatedList = [...selectedCharmsList];
+        updatedList[index].quantity += selectedQuantity;
+        setSelectedCharmsList(updatedList);
+      } else {
+        const newItem = {
+          charmId: selectedCharm.charmId,
+          price: selectedCharm.price,
+          quantity: selectedQuantity,
+        };
+        setSelectedCharmsList([...selectedCharmsList, newItem]);
+      }
+
+      setTotal(
+        (prevTotal) => prevTotal + selectedCharm.price * selectedQuantity
+      );
+      setSelectedCharm(null);
+      setSelectedQuantity(1);
+    }
+  };
+
+  const handleRemoveCharm = (charmId) => {
+    const charm = selectedCharmsList.find((item) => item.charmId === charmId);
+    const updatedList = selectedCharmsList.filter(
+      (item) => item.charmId !== charmId
+    );
+    setSelectedCharmsList(updatedList);
+    setTotal((prevTotal) => prevTotal - charm.price * charm.quantity);
+  };
 
   const handleRemoveProduct = (productId) => {
     const product = selectedProductsList.find(
@@ -154,6 +204,11 @@ export default function Sale() {
       date: new Date().toLocaleDateString("vi-VN"),
       seller: userInfo?.role,
       total: total,
+      charms: selectedCharmsList.map((charm) => ({
+        charmId: charm.charmId,
+        price: charm.price,
+        quantity: charm.quantity,
+      })),
       services: selectedServices.map((serviceName) => {
         let selectedService = null;
 
@@ -185,9 +240,11 @@ export default function Sale() {
     };
 
     await axios.post(`${BILL_API}`, newInvoice);
+    //console.log(newInvoice);
 
     setCustomerName("");
     setSelectedProductsList([]);
+    setSelectedCharmsList([]); // Clear the selected charms list
     const checkboxes = document.querySelectorAll('input[type="checkbox"]');
     checkboxes.forEach((checkbox) => {
       checkbox.checked = false;
@@ -359,6 +416,78 @@ export default function Sale() {
                   </td>
                 ))}
               </tr>
+            </tbody>
+          </table>
+        </div>
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            Chọn charm
+          </label>
+          <select
+            value={selectedCharm ? selectedCharm.price : ""}
+            onChange={handleCharmChange}
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          >
+            <option value="">Chọn charm</option>
+            {charmData.map((charm) => (
+              <option key={charm.charmId} value={charm.price}>
+                Loại <PriceComponent price={charm.price} />
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            Số lượng charm
+          </label>
+          <input
+            type="number"
+            value={selectedQuantity}
+            onChange={handleQuantityChange}
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          />
+        </div>
+        <button
+          type="button"
+          onClick={handleAddCharm}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-2"
+        >
+          Thêm charm
+        </button>
+        <div className="mt-4">
+          <h3 className="text-gray-700 text-sm font-bold mb-2">
+            Charms đã chọn
+          </h3>
+          <table className="min-w-full bg-white text-left">
+            <thead>
+              <tr>
+                <th className="py-2">Loại charm</th>
+                <th className="py-2">Số lượng</th>
+                <th className="py-2">Tổng</th>
+                <th className="py-2">Hành động</th>
+              </tr>
+            </thead>
+            <tbody>
+              {selectedCharmsList.map((charm) => (
+                <tr key={charm.charmId}>
+                  <td className="border px-4 py-2">
+                    Loại <PriceComponent price={charm.price} />
+                  </td>
+                  <td className="border px-4 py-2">{charm.quantity}</td>
+                  <td className="border px-4 py-2">
+                    <PriceComponent price={charm.price * charm.quantity} />
+                  </td>
+                  <td className="border px-4 py-2">
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveCharm(charm.charmId)}
+                      className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    >
+                      Xóa
+                    </button>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>

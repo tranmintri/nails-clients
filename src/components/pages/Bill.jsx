@@ -131,9 +131,10 @@ export default function Bill() {
                 <thead className="bg-gradient-to-br from-pink-200 to-purple-200 text-gray-700">
                   <tr>
                     <th className="w-1/6 px-4 py-2">Sản Phẩm</th>
-                    <th className="w-1/6 px-4 py-2">Số lượng</th>
-                    <th className="w-1/4 px-4 py-2">Giá tiền/sản phẩm</th>
-                    <th className="w-1/2 px-4 py-2">Dịch vụ - Giá</th>
+                    <th className="w-1/8 px-4 py-2">Số lượng</th>
+                    <th className="w-1/6 px-4 py-2">Giá tiền/sản phẩm</th>
+                    <th className="w-1/4 px-4 py-2">Dịch vụ - Giá</th>
+                    <th className="w-1/4 px-4 py-2">Loại charm - Số lượng</th>
                     <th className="w-1/6 px-4 py-2">Tổng tiền</th>
                   </tr>
                 </thead>
@@ -169,6 +170,26 @@ export default function Bill() {
                                     >
                                       {service.serviceDetailsName} -{" "}
                                       <PriceComponent price={service.price} />
+                                    </li>
+                                  )
+                                )}
+                              </ul>
+                            </td>
+                          )}
+                          {index === 0 && (
+                            <td
+                              className="border px-4 py-2"
+                              rowSpan={
+                                selectedInvoice.billDetail.productOrders.length
+                              }
+                            >
+                              <ul className="">
+                                {selectedInvoice.billDetail.charms.map(
+                                  (charm) => (
+                                    <li key={charm.charmId} className="">
+                                      Loại{" "}
+                                      <PriceComponent price={charm.price} /> -{" "}
+                                      {charm.quantity}
                                     </li>
                                   )
                                 )}
@@ -302,6 +323,28 @@ export default function Bill() {
                       </td>
                       <td className="border text-[8px] border-gray-400 pb-1">
                         <PriceComponentBill price={service.price} />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div>
+              <table className="text-[8px] text-center mt-1 w-full border-collapse border border-gray-400">
+                <thead>
+                  <tr>
+                    <th className="border border-gray-400 pb-1">Loại charm</th>
+                    <th className="border border-gray-400 pb-1">số lượng</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {selectedInvoice.billDetail.charms.map((charm, index) => (
+                    <tr key={index}>
+                      <td className="text-[8px] border border-gray-400 pb-1">
+                        Loại <PriceComponentBill price={charm.price} />
+                      </td>
+                      <td className="border border-gray-400 pb-1">
+                        {charm.quantity}
                       </td>
                     </tr>
                   ))}
